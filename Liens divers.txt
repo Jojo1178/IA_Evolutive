@@ -1,0 +1,5 @@
+Nav Mesh :
+
+http://www.ai-blog.net/archives/000152.html
+
+https://github.com/memononen/recastnavigation

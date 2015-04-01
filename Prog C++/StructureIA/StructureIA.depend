@@ -1,0 +1,54 @@
+# depslib dependency file v1.0
+1385320478 source:e:\c++\structureia\main.cpp
+	<iostream>
+
+1427928943 source:e:\c++\structureia\src\action.cpp
+	"Action.h"
+
+1427928554 e:\c++\structureia\include\action.h
+	<iostream>
+	<list>
+	"Consequence.h"
+
+1427928996 e:\c++\structureia\include\consequence.h
+	<iostream>
+	<list>
+	"Types.h"
+
+1427926935 e:\c++\structureia\include\types.h
+
+1427929172 source:e:\c++\structureia\src\monde.cpp
+	"monde.h"
+
+1427929077 e:\c++\structureia\include\monde.h
+	<iostream>
+	<list>
+	"Objets.h"
+
+1427929355 e:\c++\structureia\include\objets.h
+	<iostream>
+	<list>
+	"Action.h"
+
+1427925799 source:e:\c++\structureia\src\objets.cpp
+	"Objets.h"
+
+1427929027 source:e:\c++\structureia\src\consequence.cpp
+	"Consequence.h"
+
+1427927149 source:e:\c++\structureia\src\objectifs.cpp
+	"Objectifs.h"
+
+1427927273 e:\c++\structureia\include\objectifs.h
+	<iostream>
+	<list>
+	"Types.h"
+
+1427926936 source:e:\c++\structureia\src\types.cpp
+	"Types.h"
+
+1427927442 source:e:\c++\structureia\src\comportements.cpp
+	"Comportements.h"
+
+1427927442 e:\c++\structureia\include\comportements.h
+

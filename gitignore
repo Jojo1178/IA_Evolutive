@@ -1,0 +1,13 @@
+Builds
+Build
+
+UnityProject/Library
+UnityProject/Temp
+UnityProject/Assets/UnityVS
+UnityProject/*.sln
+UnityProject/*.csproj
+UnityProject/*.suo
+UnityProject/obj
+UnityProject/*.pidb
+UnityProject/*.csproj.user
+UnityProject/*.userprefs

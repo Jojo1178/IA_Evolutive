@@ -15,9 +15,9 @@ public class IANavigationScript : MonoBehaviour {
     //Donnees de la destination
 	public Transform destination;
     //Script Pointofinterrest
-    public PointOfInterest other;
+    public PointOfInterest pointOfInterest;
     //Script GameManager
-    public GameManager other2;
+    public GameManager Manager;
 
     //NavMEsh Agent
 	private NavMeshAgent agent;
@@ -47,7 +47,7 @@ public class IANavigationScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //print(other2.researchFinished);
-        if (!other2.researchFinished)
+        if (!Manager.researchFinished)
         {
             //print(travelFinished);
             if (travelFinished == false)
@@ -58,7 +58,7 @@ public class IANavigationScript : MonoBehaviour {
             {
                 double x, z;
                 //print(other2.numberOfRessources);
-                if (other2.numberOfRessources > 0)
+                if (Manager.numberOfRessources > 0)
                 {
                     newDestination = new Vector3(UnityEngine.Random.Range(minX, maxX), 0.5f, UnityEngine.Random.Range(minZ, maxZ));
                     x = Math.Floor(newDestination.x / 4);
@@ -78,9 +78,9 @@ public class IANavigationScript : MonoBehaviour {
         {
             if (gameObject.name == "Capsule 1")
             {
-                var bPosition = other2.basePosition;
-                var wPosition = other.wood[0];
-                var nPosition = other.food[0];
+                var bPosition = Manager.Base.transform;
+                var wPosition = pointOfInterest.wood[0];
+                var nPosition = pointOfInterest.food[0];
 
                 if (travelFinished == false)
                 {
@@ -115,7 +115,7 @@ public class IANavigationScript : MonoBehaviour {
 		else
 		{
 			//print ("collision");
-			other.pointOfInterest.Add(collision.gameObject.transform.position);
+			pointOfInterest.pointOfInterest.Add(collision.gameObject.transform.position);
 		}
 		
 	}

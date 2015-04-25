@@ -7,7 +7,8 @@ public class GameManager : MonoBehaviour {
 	//int woodMinimum = 10;
 	//int woodCollectQuantity = 2;
 
-    public Transform basePosition;
+    //public Transform basePosition;
+    public BaseStacksManager Base;
 
     //Nombre de ressources remarquable sur la map
 	public int numberOfRessources = 8;

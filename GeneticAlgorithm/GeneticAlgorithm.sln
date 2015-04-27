@@ -7,10 +7,6 @@ Project("{64568D67-94FA-41D2-E0BC-EFAAEA26692F}") = "GeneticAlgorithm", "Assembl
 EndProject
 Project("{64568D67-94FA-41D2-E0BC-EFAAEA26692F}") = "GeneticAlgorithm", "Assembly-CSharp-Editor.csproj", "{1E53A2D0-788F-9822-5626-780061062075}"
 EndProject
-Project("{64568D67-94FA-41D2-E0BC-EFAAEA26692F}") = "GeneticAlgorithm", "Assembly-Boo-Editor.booproj", "{019D7C1D-ED33-A256-E1C7-51BE45493456}"
-EndProject
-Project("{64568D67-94FA-41D2-E0BC-EFAAEA26692F}") = "GeneticAlgorithm", "Assembly-UnityScript-Editor.unityproj", "{23CF44B0-2857-5D84-E204-2F28D4C1FD6B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,19 +25,11 @@ Global
 		{1E53A2D0-788F-9822-5626-780061062075}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E53A2D0-788F-9822-5626-780061062075}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E53A2D0-788F-9822-5626-780061062075}.Release|Any CPU.Build.0 = Release|Any CPU
-		{019D7C1D-ED33-A256-E1C7-51BE45493456}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{019D7C1D-ED33-A256-E1C7-51BE45493456}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{019D7C1D-ED33-A256-E1C7-51BE45493456}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{019D7C1D-ED33-A256-E1C7-51BE45493456}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23CF44B0-2857-5D84-E204-2F28D4C1FD6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23CF44B0-2857-5D84-E204-2F28D4C1FD6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23CF44B0-2857-5D84-E204-2F28D4C1FD6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23CF44B0-2857-5D84-E204-2F28D4C1FD6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-			GlobalSection(MonoDevelopProperties) = preSolution
+							GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

@@ -5,19 +5,21 @@ using System;
 
 public class IANavigationScript : MonoBehaviour {
 
+    //definition des limites de la map
 	float minX = -25;
 	float maxX = 25;
 	float minZ = -25;
 	float maxZ = 25;
 
+    public drawFieldOfView drawFieldOfViewScript;
     private Dictionary<string, bool> lastPosition = new Dictionary<string,bool>();
 
     //Donnees de la destination
 	public Transform destination;
     //Script Pointofinterrest
-    public PointOfInterest pointOfInterest;
+    public PointOfInterest pointOfInterestScript;
     //Script GameManager
-    public GameManager Manager;
+    public GameManager gameManagerScript;
 
     //NavMEsh Agent
 	private NavMeshAgent agent;
@@ -30,6 +32,11 @@ public class IANavigationScript : MonoBehaviour {
 
     public string dest = "none";
 
+    public bool objectDetected = false;
+
+    public GameObject exclamation;
+    bool isWaiting = false;
+
 	void Start () 
 	{
 		agent = gameObject.GetComponent<NavMeshAgent>();
@@ -40,71 +47,73 @@ public class IANavigationScript : MonoBehaviour {
         var z = Math.Floor(destination.position.z / 4);
 
         lastPosition.Add(x + " " + z, true);
-        //lastPosition.Add(
-        //lastPosition.Add(Convert.ToInt32(destination.position.x), destination.position.x + destination.position.z);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //print(other2.researchFinished);
-        if (!Manager.researchFinished)
+        if (objectDetected)
         {
-            //print(travelFinished);
-            if (travelFinished == false)
-            {
-                checkReachedPath();
-            }
-            else
-            {
-                double x, z;
-                //print(other2.numberOfRessources);
-                if (Manager.numberOfRessources > 0)
-                {
-                    newDestination = new Vector3(UnityEngine.Random.Range(minX, maxX), 0.5f, UnityEngine.Random.Range(minZ, maxZ));
-                    x = Math.Floor(newDestination.x / 4);
-                    z = Math.Floor(newDestination.z / 4);
-                    while (lastPosition.ContainsKey(x + " " + z))
-                    {
-                        newDestination = new Vector3(UnityEngine.Random.Range(minX, maxX), 0.5f, UnityEngine.Random.Range(minZ, maxZ));
-                        x = Math.Floor(newDestination.x / 4);
-                        z = Math.Floor(newDestination.z / 4);
-                    }
-                    travelFinished = false;
-                    agent.SetDestination(newDestination);
-                }
-            }
+
         }
         else
         {
-            if (gameObject.name == "Capsule 1")
+            if (!gameManagerScript.researchFinished)
             {
-                var bPosition = Manager.Base.transform;
-                var wPosition = pointOfInterest.wood[0];
-                var nPosition = pointOfInterest.food[0];
-
                 if (travelFinished == false)
                 {
                     checkReachedPath();
                 }
                 else
                 {
-                    if (dest == "none")
+                    double x, z;
+                    if (gameManagerScript.numberOfRessources > 0)
                     {
-                        agent.SetDestination(bPosition.position);
-                        dest = "base";
-                    }
-                    else if (dest == "base")
-                    {
-                        agent.SetDestination(wPosition);
-                        dest = "wood";
-                    }
-                    else if (dest == "wood" || dest == "food")
-                    {
-                        agent.SetDestination(bPosition.position);
-                        dest = "base";
+                        newDestination = new Vector3(UnityEngine.Random.Range(minX, maxX), 0.5f, UnityEngine.Random.Range(minZ, maxZ));
+                        x = Math.Floor(newDestination.x / 4);
+                        z = Math.Floor(newDestination.z / 4);
+                        while (lastPosition.ContainsKey(x + " " + z))
+                        {
+                            newDestination = new Vector3(UnityEngine.Random.Range(minX, maxX), 0.5f, UnityEngine.Random.Range(minZ, maxZ));
+                            x = Math.Floor(newDestination.x / 4);
+                            z = Math.Floor(newDestination.z / 4);
+                        }
+                        travelFinished = false;
+                        agent.SetDestination(newDestination);
                     }
                 }
-            } 
+            }
+            else
+            {
+                if (gameObject.name == "Capsule 1")
+                {
+                    var bPosition = gameManagerScript.baseStackManagerScript.transform;
+                    var wPosition = pointOfInterestScript.wood[0];
+                    var nPosition = pointOfInterestScript.food[0];
+
+                    if (travelFinished == false)
+                    {
+                        checkReachedPath();
+                    }
+                    else
+                    {
+                        if (dest == "none")
+                        {
+                            agent.SetDestination(bPosition.position);
+                            dest = "base";
+                        }
+                        else if (dest == "base")
+                        {
+                            agent.SetDestination(wPosition);
+                            dest = "wood";
+                        }
+                        else if (dest == "wood" || dest == "food")
+                        {
+                            agent.SetDestination(bPosition.position);
+                            dest = "base";
+                        }
+                    }
+                }
+            }
         }
 	}
 
@@ -115,7 +124,7 @@ public class IANavigationScript : MonoBehaviour {
 		else
 		{
 			//print ("collision");
-			pointOfInterest.pointOfInterest.Add(collision.gameObject.transform.position);
+			pointOfInterestScript.pointOfInterest.Add(collision.gameObject.transform.position);
 		}
 		
 	}
@@ -132,4 +141,21 @@ public class IANavigationScript : MonoBehaviour {
 			}
 		}
 	}
+
+    public void setAgentDestination(Vector3 newDestination)
+    {
+        agent.SetDestination(newDestination);
+    }
+
+    public IEnumerator popEventDetection(Vector3 position)
+    {
+        isWaiting = true;
+        exclamation.SetActive(true);
+        agent.Stop();
+        yield return new WaitForSeconds(1);
+        setAgentDestination(position);
+        agent.Resume();
+        exclamation.SetActive(false);
+        drawFieldOfViewScript.detectionMode = false;
+    }
 }

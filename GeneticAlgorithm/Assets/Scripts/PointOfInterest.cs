@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class PointOfInterest : MonoBehaviour {
 
 	public List<Vector3> pointOfInterest = new List<Vector3>();
+    public Dictionary<string, Vector3> pointOfInterest2 = new Dictionary<string, Vector3>();
 
     public List<Vector3> wood = new List<Vector3>();
 
@@ -22,7 +23,6 @@ public class PointOfInterest : MonoBehaviour {
 		if(size != pointOfInterest.Count)
 		{
 			size = pointOfInterest.Count;
-            //print("size = " + size);
 		}
 		else
 			allDetected = false;

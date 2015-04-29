@@ -51,7 +51,7 @@
      <Compile Include="Assets\Scripts\IANavigationScript.cs" />
      <Compile Include="Assets\Scripts\ObjectDetectionScript.cs" />
      <Compile Include="Assets\Scripts\PointOfInterest.cs" />
-     <Compile Include="Assets\Scripts\SightScript.cs" />
+     <Compile Include="Assets\Scripts\drawFieldOfView.cs" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\ThirdPersonCharacter\ThirdPersonCharacterGuidelines.txt" />
      <None Include="Assets\Standard Assets\Characters\FirstPersonCharacter\FirstPersonCharacterGuidelines.txt" />

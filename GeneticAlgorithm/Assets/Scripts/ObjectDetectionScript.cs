@@ -3,10 +3,9 @@ using System.Collections;
 
 public class ObjectDetectionScript : MonoBehaviour {
 
-	private bool isDetected = false;
-
-	public PointOfInterest script;
-    public GameManager script2;
+	public bool isDetected = false;
+	public PointOfInterest pointOfInterrestScript;
+    public GameManager gameManagerScript;
 
 	// Use this for initialization
 	void Start () {
@@ -31,19 +30,25 @@ public class ObjectDetectionScript : MonoBehaviour {
                 switch (gameObject.layer)
                 {
                     case 8:
-                        script.wood.Add(gameObject.transform.position);
-                        print("A tree is added to the list, number of element = " + script.wood.Count); 
+                        pointOfInterrestScript.pointOfInterest2.Add(gameObject.name, gameObject.transform.position);
+                        print("ajout de :"+ gameObject.name);
+                        pointOfInterrestScript.wood.Add(gameObject.transform.position);
+                        print("A tree is added to the list, number of element = " + pointOfInterrestScript.wood.Count); 
                         break;
                     case 9:
-                        script.food.Add(gameObject.transform.position);
-                        print("A food is added to the list, number of element = " + script.food.Count); 
+                        pointOfInterrestScript.pointOfInterest2.Add(gameObject.name, gameObject.transform.position);
+                        print("ajout de :" + gameObject.name);
+                        pointOfInterrestScript.food.Add(gameObject.transform.position);
+                        print("A food is added to the list, number of element = " + pointOfInterrestScript.food.Count); 
                         break;
                     default:
+                        pointOfInterrestScript.pointOfInterest2.Add(gameObject.name, gameObject.transform.position);
+                        print("ajout de :" + gameObject.name);
                         print("Unknow object detected");
                         break;
                 }
 				//script.addElement(collider.transform.position);
-                script2.SubstractRessource();
+                gameManagerScript.SubstractRessource();
 			}
 		}
 	}

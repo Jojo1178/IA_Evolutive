@@ -8,14 +8,14 @@ public class GameManager : MonoBehaviour {
 	//int woodCollectQuantity = 2;
 
     //public Transform basePosition;
-    public BaseStacksManager Base;
+    public BaseStacksManager baseStackManagerScript;
 
     //Nombre de ressources remarquable sur la map
 	public int numberOfRessources = 8;
     //Définies sur la recherche est terminé ou pas
     public bool researchFinished = false;
     //script PointOfInterest
-	public PointOfInterest other;
+	public PointOfInterest pointOfInterrestScript;
 
     //Variable d'etat du jeu
     private bool phase1; //Phase d'exploration de la map

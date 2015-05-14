@@ -22,9 +22,12 @@ public class IANavigationScript : MonoBehaviour {
     public GameManager gameManagerScript;
 
     //NavMEsh Agent
-	private NavMeshAgent agent;
+	public NavMeshAgent agent;
+    
     //Determine si le trajet actuel de l'IA est terminé ou pas
-	private bool travelFinished = false;
+    [HideInInspector]
+	public bool travelFinished = false;
+
     //Vector correspondant aux coordonnees de la nouvelle destination
 	private Vector3 newDestination = new Vector3();
 
@@ -84,35 +87,69 @@ public class IANavigationScript : MonoBehaviour {
             }
             else
             {
-                if (gameObject.name == "Capsule 1")
+                if (travelFinished == false)
                 {
-                    var bPosition = gameManagerScript.baseStackManagerScript.transform;
-                    var wPosition = pointOfInterestScript.wood[0];
-                    var nPosition = pointOfInterestScript.food[0];
-
-                    if (travelFinished == false)
+                    checkReachedPath();
+                }
+                else
+                {
+                    if (dest.Equals("base"))
                     {
-                        checkReachedPath();
+                        agent.SetDestination(gameManagerScript.baseStackManagerScript.transform.position);
+                        travelFinished = false;
                     }
-                    else
+                    else if (dest.Equals("wood"))
                     {
-                        if (dest == "none")
+                        int closestIndex = 0;
+                        for (int i = 0; i < pointOfInterestScript.wood.Count; i++)
                         {
-                            agent.SetDestination(bPosition.position);
-                            dest = "base";
+                            if (Vector3.Distance(transform.position, pointOfInterestScript.wood[closestIndex]) > Vector3.Distance(transform.position, pointOfInterestScript.wood[i]))
+                                closestIndex = i;
                         }
-                        else if (dest == "base")
+                        agent.SetDestination(pointOfInterestScript.wood[closestIndex]);
+                        travelFinished = false;
+                    }
+                    else if (dest.Equals("food"))
+                    {
+                        int closestIndex = 0;
+                        for (int i = 0; i < pointOfInterestScript.food.Count; i++)
                         {
-                            agent.SetDestination(wPosition);
-                            dest = "wood";
+                            if (Vector3.Distance(transform.position, pointOfInterestScript.food[closestIndex]) > Vector3.Distance(transform.position, pointOfInterestScript.food[i]))
+                                closestIndex = i;
                         }
-                        else if (dest == "wood" || dest == "food")
-                        {
-                            agent.SetDestination(bPosition.position);
-                            dest = "base";
-                        }
+                        agent.SetDestination(pointOfInterestScript.food[closestIndex]);
+                        travelFinished = false;
                     }
                 }
+                //if (gameObject.name == "Capsule 1")
+                //{
+                //    var bPosition = gameManagerScript.baseStackManagerScript.transform;
+                //    var wPosition = pointOfInterestScript.wood[0];
+                //    var nPosition = pointOfInterestScript.food[0];
+                //
+                //    if (travelFinished == false)
+                //    {
+                //        checkReachedPath();
+                //    }
+                //    else
+                //    {
+                //        if (dest == "none")
+                //        {
+                //            agent.SetDestination(bPosition.position);
+                //            dest = "base";
+                //        }
+                //        else if (dest == "base")
+                //        {
+                //            agent.SetDestination(wPosition);
+                //            dest = "wood";
+                //        }
+                //        else if (dest == "wood" || dest == "food")
+                //        {
+                //            agent.SetDestination(bPosition.position);
+                //            dest = "base";
+                //        }
+                //    }
+                //}
             }
         }
 	}

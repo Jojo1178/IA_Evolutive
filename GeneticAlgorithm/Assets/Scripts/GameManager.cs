@@ -27,6 +27,12 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (numberOfRessources == 0)
+        {
+            researchFinished = true;
+            phase1 = false;
+            phase2 = true;
+        }
 	}
 
     public void SubstractRessource()

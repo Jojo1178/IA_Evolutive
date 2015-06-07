@@ -119,7 +119,8 @@ public class drawFieldOfView : MonoBehaviour
     void OnTriggerEnter(Collider col)
     {
         //print("collision with " + col.gameObject.name);
-        if (col.gameObject.name != "Plane")
+        //if (col.gameObject.name != "Plane")
+        if (col.gameObject.layer == 8 || col.gameObject.layer == 9)
         {
             if (!pointOfInterestScript.pointOfInterest2.ContainsKey(col.gameObject.name))
             {

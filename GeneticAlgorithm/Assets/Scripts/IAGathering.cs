@@ -22,7 +22,8 @@ public class IAGathering : MonoBehaviour {
         COLLECTING_WOOD,
         COLLECTING_FOOD,
         BRINGTOBASE,
-        UPDATESTOCK
+        UPDATESTOCK,
+        BUILDING
     }
     private GATHERING_STATE GatheringState;
     private bool Staking = false;
@@ -95,26 +96,69 @@ public class IAGathering : MonoBehaviour {
                     if (NavScript.travelFinished && Vector3.Distance(transform.position, Base.transform.position) < Distance)
                         StartCoroutine(DropStack());
                     break;
+                case GATHERING_STATE.BUILDING:
+                    if (Travel == false)
+                    {
+                        NavScript.dest = "build";
+                        Debug.Log("Going to Build stuff");
+                        Travel = true;
+                    }
+                    if (NavScript.travelFinished && Vector3.Distance(transform.position, NavScript.agent.destination) < Distance)
+                        StartCoroutine(BuildBulding());
+                    break;
             }
         }
     }
 
     private void GetPriority()
     {
-        BaseStacksManager.RESOURCES_TYPE resourcesToGet = Priority[0];
+        BaseStacksManager.RESOURCES_TYPE resourcesToGet = BaseStacksManager.RESOURCES_TYPE.NONE;
         foreach (BaseStacksManager.RESOURCES_TYPE rt in Priority)
         {
             if (Manager.baseStackManagerScript.ResourcesStacked[rt] < CriticalStockLevel)
             {
                 resourcesToGet = rt;
                 break;
+
+            }
+            if (resourcesToGet == BaseStacksManager.RESOURCES_TYPE.NONE && Manager.baseStackManagerScript.ResourcesStacked[rt] < Manager.baseStackManagerScript.ResourcesMaxValues[rt])
+                resourcesToGet = rt;
+        }
+        if (resourcesToGet != BaseStacksManager.RESOURCES_TYPE.NONE)
+        {
+            Travel = false;
+            if (resourcesToGet == BaseStacksManager.RESOURCES_TYPE.WOOD)
+                GatheringState = GATHERING_STATE.COLLECTING_WOOD;
+            if (resourcesToGet == BaseStacksManager.RESOURCES_TYPE.FOOD)
+                GatheringState = GATHERING_STATE.COLLECTING_FOOD;
+        }
+        else
+            ContructBuilding();
+    }
+
+    private void ContructBuilding()
+    {
+        foreach (KeyValuePair<Vector3, bool> place in Manager.baseStackManagerScript.BuildingPlaces)
+        {
+            if (place.Value)
+            {
+                Travel = false;
+                GatheringState = GATHERING_STATE.BUILDING;
+                break;
             }
         }
+    }
+
+    private IEnumerator BuildBulding()
+    {
+        Debug.LogWarning("Create Building animation missing");
+        yield return new WaitForSeconds(3);
+        foreach (KeyValuePair< BaseStacksManager.RESOURCES_TYPE, int> ent in Manager.baseStackManagerScript.ResourcesMaxValues)
+            Manager.baseStackManagerScript.ResourcesMaxValues[ent.Key] += 50;
+        GatheringState = GATHERING_STATE.UPDATESTOCK;
+        Staking = false;
         Travel = false;
-        if (resourcesToGet == BaseStacksManager.RESOURCES_TYPE.WOOD)
-            GatheringState = GATHERING_STATE.COLLECTING_WOOD;
-        if (resourcesToGet == BaseStacksManager.RESOURCES_TYPE.FOOD)
-            GatheringState = GATHERING_STATE.COLLECTING_FOOD;
+        //throw new System.NotImplementedException();
     }
 
     private IEnumerator DropStack()

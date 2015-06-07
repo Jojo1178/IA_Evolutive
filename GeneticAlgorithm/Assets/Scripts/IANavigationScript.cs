@@ -120,6 +120,17 @@ public class IANavigationScript : MonoBehaviour {
                         agent.SetDestination(pointOfInterestScript.food[closestIndex]);
                         travelFinished = false;
                     }
+                    else if (dest.Equals("build"))
+                    {
+                        int closestIndex = 0;
+                        for (int i = 0; i < gameManagerScript.baseStackManagerScript.BuildingPlaces.Count; i++)
+                        {
+                            if (Vector3.Distance(transform.position, gameManagerScript.baseStackManagerScript.BuildingPlaces[closestIndex].Key) > Vector3.Distance(transform.position, gameManagerScript.baseStackManagerScript.BuildingPlaces[i].Key))
+                                closestIndex = i;
+                        }
+                        agent.SetDestination(gameManagerScript.baseStackManagerScript.BuildingPlaces[closestIndex].Key);
+                        travelFinished = false;
+                    }
                 }
                 //if (gameObject.name == "Capsule 1")
                 //{

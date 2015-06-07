@@ -8,14 +8,27 @@ public class BaseStacksManager : MonoBehaviour {
     public enum RESOURCES_TYPE
     {
         WOOD,
-        FOOD
+        FOOD,
+        NONE
     };
     public Dictionary<RESOURCES_TYPE, int> ResourcesStacked;
+    public Dictionary<RESOURCES_TYPE, int> ResourcesMaxValues;
+    public List<Transform> BuildingPlacesEditor;
+    public List<KeyValuePair<Vector3,bool>> BuildingPlaces;
+    public int BaseMaxValue = 100;
 	// Use this for initialization
 	void Start () {
         ResourcesStacked = new Dictionary<RESOURCES_TYPE, int>();
         ResourcesStacked.Add(RESOURCES_TYPE.WOOD , 0);
         ResourcesStacked.Add(RESOURCES_TYPE.FOOD, 0);
+        ResourcesMaxValues = new Dictionary<RESOURCES_TYPE, int>();
+        ResourcesMaxValues.Add(RESOURCES_TYPE.WOOD, BaseMaxValue);
+        ResourcesMaxValues.Add(RESOURCES_TYPE.FOOD, BaseMaxValue);
+
+        BuildingPlaces = new List<KeyValuePair<Vector3, bool>>();
+        foreach (Transform place in BuildingPlacesEditor)
+            BuildingPlaces.Add(new KeyValuePair<Vector3, bool>(place.position,false));
+
 	}
 	
 	// Update is called once per frame

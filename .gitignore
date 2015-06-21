@@ -6,8 +6,14 @@ GeneticAlgorithm/Temp
 GeneticAlgorithm/Assets/UnityVS
 GeneticAlgorithm/*.sln
 GeneticAlgorithm/*.csproj
-GeneticAlgorithm/*.suo
 GeneticAlgorithm/obj
 GeneticAlgorithm/*.pidb
-GeneticAlgorithm/*.csproj.user
 GeneticAlgorithm/*.userprefs
+
+*.lastbuildstate
+*.obj
+*.pdb
+*.lik
+*.csproj.user
+*.suo
+*.tlog

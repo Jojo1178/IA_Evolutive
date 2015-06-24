@@ -1,7 +1,0 @@
-Algo :
-	- Différenciel
-	- Psychologie des choix
-
-Opengl/Unreal:
-	- Navigation Mesh
-	

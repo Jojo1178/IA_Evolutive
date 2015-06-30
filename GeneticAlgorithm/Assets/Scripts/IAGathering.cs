@@ -37,7 +37,7 @@ public class IAGathering : MonoBehaviour {
                 break;
         }
         Debug.Log(Priority[0]);
-        IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
+        //IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
         Inventory = new int[10];
     }
 	
@@ -147,7 +147,7 @@ public class IAGathering : MonoBehaviour {
         yield return new WaitForSeconds(3);
         foreach (KeyValuePair< BaseStacksManager.RESOURCES_TYPE, int> ent in Manager.baseStackManagerScript.ResourcesMaxValues)
             Manager.baseStackManagerScript.ResourcesMaxValues[ent.Key] += 50;
-        IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
+        //IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
         Staking = false;
         Travel = false;
         //throw new System.NotImplementedException();
@@ -166,7 +166,7 @@ public class IAGathering : MonoBehaviour {
                     Manager.baseStackManagerScript.AddResources(BaseStacksManager.RESOURCES_TYPE.FOOD, 1);
                 yield return new WaitForSeconds(0.25f);
             }
-            IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
+            //IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
             Staking = false;
             Travel = false;
         }

@@ -5,6 +5,14 @@ public class IAManager : MonoBehaviour {
 
     public AI LearningAI;
     public World CurrentWorld;
+    public enum GATHERING_STATE
+    {
+        COLLECTING_WOOD,
+        COLLECTING_FOOD,
+        BRINGTOBASE,
+        BUILDING
+    }
+    public GATHERING_STATE GatheringState;
 
 	// Use this for initialization
 	void Start () {

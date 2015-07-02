@@ -21,9 +21,21 @@ public class IAGathering : MonoBehaviour {
     private bool Staking = false;
     private bool Travel = false;
 
+    public enum GATHERING_STATE
+    {
+        NONE,
+        COLLECTING_WOOD,
+        COLLECTING_FOOD,
+        BRINGTOBASE,
+        BUILDING
+    }
+    public GATHERING_STATE GatheringState;
+
 	// Use this for initialization
     void Start()
     {
+        if (!Manager.CharacterList.Contains(this.gameObject))
+            Manager.CharacterList.Add(this.gameObject);
         Priority = new List<BaseStacksManager.RESOURCES_TYPE>();
         switch (SeedKeyPriority)
         {
@@ -46,7 +58,7 @@ public class IAGathering : MonoBehaviour {
     {
         if (Manager.numberOfRessources == 0)
         {
-            switch (IAScript.GatheringState)
+            switch (GatheringState)
             {
               /*  case IAManager.GATHERING_STATE.UPDATESTOCK:
                     if (Travel == false)
@@ -58,7 +70,7 @@ public class IAGathering : MonoBehaviour {
                     if (NavScript.travelFinished)
                         GetPriority();
                     break;*/
-                case IAManager.GATHERING_STATE.COLLECTING_WOOD:
+                case GATHERING_STATE.COLLECTING_WOOD:
                     if (Travel == false)
                     {
                         NavScript.dest = "wood";
@@ -68,7 +80,7 @@ public class IAGathering : MonoBehaviour {
                     if (NavScript.travelFinished && Vector3.Distance(transform.position, NavScript.agent.destination) < Distance)
                         StartCoroutine(StackObject(BaseStacksManager.RESOURCES_TYPE.WOOD));
                     break;
-                case IAManager.GATHERING_STATE.COLLECTING_FOOD:
+                case GATHERING_STATE.COLLECTING_FOOD:
                     if (Travel == false)
                     {
                         NavScript.dest = "food";
@@ -78,7 +90,7 @@ public class IAGathering : MonoBehaviour {
                     if (NavScript.travelFinished && Vector3.Distance(transform.position, NavScript.agent.destination) < Distance)
                         StartCoroutine(StackObject(BaseStacksManager.RESOURCES_TYPE.FOOD));
                     break;
-                case IAManager.GATHERING_STATE.BRINGTOBASE:
+                case GATHERING_STATE.BRINGTOBASE:
                     if (Travel == false)
                     {
                         NavScript.dest = "base";
@@ -88,7 +100,7 @@ public class IAGathering : MonoBehaviour {
                     if (NavScript.travelFinished && Vector3.Distance(transform.position, Base.transform.position) < Distance)
                         StartCoroutine(DropStack());
                     break;
-                case IAManager.GATHERING_STATE.BUILDING:
+                case GATHERING_STATE.BUILDING:
                     if (Travel == false)
                     {
                         NavScript.dest = "build";
@@ -167,6 +179,7 @@ public class IAGathering : MonoBehaviour {
                 yield return new WaitForSeconds(0.25f);
             }
             //IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
+            GatheringState = GATHERING_STATE.NONE;
             Staking = false;
             Travel = false;
         }
@@ -186,7 +199,7 @@ public class IAGathering : MonoBehaviour {
                 Debug.Log(i + " resources collected");
                 yield return new WaitForSeconds(1);
             }
-            IAScript.GatheringState = IAManager.GATHERING_STATE.BRINGTOBASE;
+            GatheringState = GATHERING_STATE.BRINGTOBASE;
             Staking = false;
             Travel = false;
         }

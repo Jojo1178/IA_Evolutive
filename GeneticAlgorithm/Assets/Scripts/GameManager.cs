@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour {
 
@@ -9,6 +10,8 @@ public class GameManager : MonoBehaviour {
 
     //public Transform basePosition;
     public BaseStacksManager baseStackManagerScript;
+
+    public List<GameObject> CharacterList;
 
     //Nombre de ressources remarquable sur la map
 	public int numberOfRessources = 8;

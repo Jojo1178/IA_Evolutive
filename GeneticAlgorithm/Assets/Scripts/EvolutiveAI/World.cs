@@ -8,8 +8,8 @@ public class World : MonoBehaviour {
 	private Consequences[] allInteractions;
 
     public List<GameObject> CharacterList;
-    public List<Vector3> WoodList;
-    public List<Vector3> FoodList;
+    public List<GameObject> WoodList;
+    public List<GameObject> FoodList;
 
 	public Consequences[] AllInteractions {
 		get {

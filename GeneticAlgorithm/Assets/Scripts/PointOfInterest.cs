@@ -8,8 +8,10 @@ public class PointOfInterest : MonoBehaviour {
     public Dictionary<string, Vector3> pointOfInterest2 = new Dictionary<string, Vector3>();
 
     public List<Vector3> wood = new List<Vector3>();
+    public List<GameObject> woodGO = new List<GameObject>();
 
     public List<Vector3> food = new List<Vector3>();
+    public List<GameObject> foodGO = new List<GameObject>();
 	int size;
 	public bool allDetected = false;
 

@@ -33,12 +33,14 @@ public class ObjectDetectionScript : MonoBehaviour {
                         pointOfInterrestScript.pointOfInterest2.Add(gameObject.name, gameObject.transform.position);
                         print("ajout de :"+ gameObject.name);
                         pointOfInterrestScript.wood.Add(gameObject.transform.position);
+                        pointOfInterrestScript.woodGO.Add(gameObject);
                         print("A tree is added to the list, number of element = " + pointOfInterrestScript.wood.Count); 
                         break;
                     case 9:
                         pointOfInterrestScript.pointOfInterest2.Add(gameObject.name, gameObject.transform.position);
                         print("ajout de :" + gameObject.name);
                         pointOfInterrestScript.food.Add(gameObject.transform.position);
+                        pointOfInterrestScript.foodGO.Add(gameObject);
                         print("A food is added to the list, number of element = " + pointOfInterrestScript.food.Count); 
                         break;
                     default:

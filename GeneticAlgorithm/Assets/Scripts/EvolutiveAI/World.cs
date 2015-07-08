@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public class World : MonoBehaviour {
 
 
-	private Consequences[] allInteractions;
+    private Actions[] actionList;
+    private Consequences[] allInteractions;
 
     public List<GameObject> CharacterList;
     public List<GameObject> WoodList;
@@ -19,10 +20,16 @@ public class World : MonoBehaviour {
 			allInteractions = value;
 		}
 	}
+    public Actions[] ActionList
+    {
+        get { return actionList; }
+        set { actionList = value; }
+    }
 
 	// Use this for initialization
 	public virtual void Start () {
 		allInteractions.Initialize();
+        ActionList.Initialize();
 	}
 	
 	// Update is called once per frame
@@ -61,4 +68,17 @@ public class World : MonoBehaviour {
 
 		return null;
 	}
+
+    public Actions GetActionById(int Id)
+    {
+        for (int i = 0; i < actionList.Length; i++)
+        {
+            if(actionList[i].ActionID == Id)
+            {
+                return actionList[i];
+            }
+        }
+
+        return null;
+    }
 }

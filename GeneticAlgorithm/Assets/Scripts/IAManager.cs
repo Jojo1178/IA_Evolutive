@@ -6,6 +6,7 @@ public class IAManager : MonoBehaviour {
 
     public AI LearningAI;
     public World CurrentWorld;
+    public ActionTrees OrdersChain;
     public GameManager Manager;
 
 	// Use this for initialization
@@ -25,38 +26,56 @@ public class IAManager : MonoBehaviour {
 
     private void CreateObjectives()
     {
-        List<Objectives> ObjectivesList = new List<Objectives>();
+        Actions[] ActionsPossible = new Actions[6];
+        Actions action = new Actions();
 
+        action.Create(1, "GetWood");
+        ActionsPossible[0] = action;
+
+        action.Create(2, "GetFood");
+        ActionsPossible[1] = action;
+
+        action.Create(3, "BringStackToBase");
+        ActionsPossible[2] = action;
+
+        action.Create(4, "ReturnToBase");
+        ActionsPossible[3] = action;
+
+        action.Create(5, "BuildBuliding");
+        ActionsPossible[4] = action;
+
+        action.Create(6, "CreateNewCharacter");
+        ActionsPossible[5] = action;
+
+        CurrentWorld.ActionList = ActionsPossible;
+
+        
+        List<Objectives> ObjectivesList = new List<Objectives>();
         Objectives objs = new Objectives();
         Types t = new Types();
-        Actions act = new Actions();
         
         t.Create(1, "GetWood");
-        act.Create(1, "Drop Wood");
-        objs.Create(false, t, 10, act);
+        objs.Create(false, t, 10, CurrentWorld.GetActionById(1));
         ObjectivesList.Add(objs);
 
         t.Create(2, "GetFood");
-        act.Create(2, "Drop Food");
-        objs.Create(false, t, 10, act);
+        objs.Create(false, t, 10, CurrentWorld.GetActionById(2));
         ObjectivesList.Add(objs);
 
         t.Create(3, "BuildBuilding");
-        act.Create(3, "Building Builded");
-        objs.Create(false, t, 1, act);
+        objs.Create(false, t, 1, CurrentWorld.GetActionById(5));
         ObjectivesList.Add(objs);
 
         t.Create(4, "CreateNewCharacter");
-        act.Create(4, "Character Borned");
-        objs.Create(false, t, 1, act);
+        objs.Create(false, t, 1, CurrentWorld.GetActionById(6));
         ObjectivesList.Add(objs);
 
         t.Create(5, "HaveTenPeople");
-        act.Create(5, "Ten People Created");
-        objs.Create(true, t, 10, act);
+        objs.Create(true, t, 10, CurrentWorld.GetActionById(6));
         ObjectivesList.Add(objs);
 
         LearningAI.Create(objs, 3, CurrentWorld);
+        OrdersChain = LearningAI.ChooseActions();
     }
 
     public void GiveOrder(GameObject character, IAGathering.GATHERING_STATE order)

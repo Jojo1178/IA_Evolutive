@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
     //public Transform basePosition;
     public BaseStacksManager baseStackManagerScript;
 
-    public List<GameObject> CharacterList;
+    public List<IAGathering> CharacterList;
 
     //Nombre de ressources remarquable sur la map
 	public int numberOfRessources = 8;
@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour {
     public bool researchFinished = false;
     //script PointOfInterest
 	public PointOfInterest pointOfInterrestScript;
+
+    //Vrai quand une avtion est terminée
+    public bool ActionDone = false;
 
     //Variable d'etat du jeu
     private bool phase1; //Phase d'exploration de la map

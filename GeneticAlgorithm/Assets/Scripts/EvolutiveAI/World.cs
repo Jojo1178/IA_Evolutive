@@ -8,9 +8,9 @@ public class World : MonoBehaviour {
     private Actions[] actionList;
     private Consequences[] allInteractions;
 
-    public List<GameObject> CharacterList;
-    public List<GameObject> WoodList;
-    public List<GameObject> FoodList;
+    public List<IAGathering> CharacterList = new List<IAGathering>();
+    public List<GameObject> WoodList = new List<GameObject>();
+    public List<GameObject> FoodList = new List<GameObject>();
 
 	public Consequences[] AllInteractions {
 		get {

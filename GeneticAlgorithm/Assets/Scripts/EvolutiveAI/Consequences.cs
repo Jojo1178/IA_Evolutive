@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Consequences : MonoBehaviour {
+public class Consequences : World {
 
 	private Actions[] actionsList;
 	private Objets[] objets;
@@ -71,6 +71,8 @@ public class Consequences : MonoBehaviour {
 		consequenceId = ID;
 		consequenceName = Name;
 		type = ConsType;
+
+        AllInteractions[AllInteractions.Length] = this;
 	}
 
 

@@ -75,5 +75,16 @@ public class Consequences : World {
         AllInteractions[AllInteractions.Length] = this;
 	}
 
+    public virtual void Create(Actions linkedActions, Objets linkedObjects, int ID, string Name, Types ConsType)
+    {
+        actionsList[0] = linkedActions;
+        objets[0] = linkedObjects;
+        consequenceId = ID;
+        consequenceName = Name;
+        type = ConsType;
+
+        AllInteractions[AllInteractions.Length] = this;
+    }
+
 
 }

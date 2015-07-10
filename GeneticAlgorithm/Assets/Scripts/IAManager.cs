@@ -67,6 +67,15 @@ public class IAManager : MonoBehaviour {
 
     private void CreateObjectives()
     {
+        Objets foodobjet = new Objets();
+        foodobjet.Create(1,"Food");
+        Objets woodobjet = new Objets();
+        woodobjet.Create(1,"Wood");
+        Objets baseobjet = new Objets();
+        baseobjet.Create(1,"Base");
+        Objets buildingobjet = new Objets();
+        buildingobjet.Create(1, "Building");
+
         Actions[] ActionsPossible = new Actions[4];
         Actions action = new Actions();
 
@@ -89,22 +98,27 @@ public class IAManager : MonoBehaviour {
         List<Objectives> ObjectivesList = new List<Objectives>();
         Objectives objs = new Objectives();
         Types t = new Types();
-        
+        Consequences csq = new Consequences();
+
         t.Create(1, "GetWood");
         objs.Create(false, t, 10, CurrentWorld.GetActionById(1));
         ObjectivesList.Add(objs);
+        csq.Create(ActionsPossible[0], woodobjet, 1, "Collecting Wood", t);
 
         t.Create(2, "GetFood");
         objs.Create(false, t, 10, CurrentWorld.GetActionById(2));
         ObjectivesList.Add(objs);
+        csq.Create(ActionsPossible[1], foodobjet, 2, "Collecting Food", t);
 
         t.Create(3, "BuildBuilding");
         objs.Create(false, t, 1, CurrentWorld.GetActionById(3));
         ObjectivesList.Add(objs);
+        csq.Create(ActionsPossible[2], buildingobjet, 3, "Build Building", t);
 
         t.Create(4, "HaveThreeBuliding");
         objs.Create(true, t, 10, CurrentWorld.GetActionById(3));
         ObjectivesList.Add(objs);
+        csq.Create(ActionsPossible[2], buildingobjet, 4, "Build 3 Building", t);
 
         LearningAI = gameObject.AddComponent<AI>();
         LearningAI.Create(objs, 3, CurrentWorld);

@@ -99,26 +99,42 @@ public class IAManager : MonoBehaviour {
         Objectives objs = new Objectives();
         Types t = new Types();
         Consequences csq = new Consequences();
+        Actions[] acts = new Actions[1];
+        Objets[] obejs = new Objets[1];
+        CurrentWorld.AllInteractions = new Consequences[4];
+
 
         t.Create(1, "GetWood");
         objs.Create(false, t, 10, CurrentWorld.GetActionById(1));
         ObjectivesList.Add(objs);
-        csq.Create(ActionsPossible[0], woodobjet, 1, "Collecting Wood", t);
+        acts[0] = ActionsPossible[0];
+        obejs[0] = woodobjet;
+        csq.Create(acts, obejs, 1, "Collecting Wood", t);
+        CurrentWorld.AllInteractions[0] = csq;
 
         t.Create(2, "GetFood");
         objs.Create(false, t, 10, CurrentWorld.GetActionById(2));
         ObjectivesList.Add(objs);
-        csq.Create(ActionsPossible[1], foodobjet, 2, "Collecting Food", t);
+        acts[0] = ActionsPossible[1];
+        obejs[0] = foodobjet;
+        csq.Create(acts, obejs, 2, "Collecting Food", t);
+        CurrentWorld.AllInteractions[1] = csq;
 
         t.Create(3, "BuildBuilding");
         objs.Create(false, t, 1, CurrentWorld.GetActionById(3));
         ObjectivesList.Add(objs);
-        csq.Create(ActionsPossible[2], buildingobjet, 3, "Build Building", t);
+        acts[0] = ActionsPossible[2];
+        obejs[0] = buildingobjet;
+        csq.Create(acts, obejs, 3, "Build Building", t);
+        CurrentWorld.AllInteractions[2] = csq;
 
         t.Create(4, "HaveThreeBuliding");
         objs.Create(true, t, 10, CurrentWorld.GetActionById(3));
         ObjectivesList.Add(objs);
-        csq.Create(ActionsPossible[2], buildingobjet, 4, "Build 3 Building", t);
+        acts[0] = ActionsPossible[2];
+        obejs[0] = buildingobjet;
+        csq.Create(acts, obejs, 4, "Build 3 Building", t);
+        CurrentWorld.AllInteractions[3] = csq;
 
         LearningAI = gameObject.AddComponent<AI>();
         LearningAI.Create(objs, 3, CurrentWorld);

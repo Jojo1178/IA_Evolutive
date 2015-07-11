@@ -4,19 +4,19 @@ using System.Collections.Generic;
 
 public class Consequences : World {
 
-	private List<Actions> actionsList = new List<Actions>();
+	private List<Actions> actionsLinked = new List<Actions>();
     private List<Objets> objets = new List<Objets>();
 	private int consequenceId;
 	private string consequenceName;
 	private Types type;
 
-    public List<Actions> ActionsList
+    public List<Actions> ActionsLinked
     {
 		get {
-			return actionsList;
+            return actionsLinked;
 		}
 		set {
-			actionsList = value;
+            actionsLinked = value;
 		}
 	}
 
@@ -68,7 +68,7 @@ public class Consequences : World {
 
 	public virtual void Create(List<Actions> linkedActions,List<Objets> linkedObjects, int ID, string Name, Types ConsType)
 	{
-		actionsList = linkedActions;
+        actionsLinked = linkedActions;
 		objets = linkedObjects;
 		consequenceId = ID;
 		consequenceName = Name;

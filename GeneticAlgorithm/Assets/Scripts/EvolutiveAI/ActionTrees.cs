@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ActionTrees : MonoBehaviour {
+public class ActionTrees : World {
 
 	private List<int> listOfActions = new List<int>();
 	private int treeScore;

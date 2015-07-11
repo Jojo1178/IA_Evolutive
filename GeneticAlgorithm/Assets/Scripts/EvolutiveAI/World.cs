@@ -7,6 +7,7 @@ public class World : MonoBehaviour {
 
     private List<Actions> actionList = new List<Actions>();
     private List<Consequences> allInteractions = new List<Consequences>();
+    private List<Types> allTypes = new List<Types>();
 
     public List<IAGathering> CharacterList = new List<IAGathering>();
     public List<GameObject> WoodList = new List<GameObject>();
@@ -20,15 +21,24 @@ public class World : MonoBehaviour {
 			allInteractions = value;
 		}
 	}
+
     public List<Actions> ActionList
     {
         get { return actionList; }
         set { actionList = value; }
     }
 
+
+    public List<Types> AllTypes
+    {
+        get { return allTypes; }
+        set { allTypes = value; }
+    }
+
+
 	// Use this for initialization
 	public virtual void Start () {
-	
+
 	}
 	
 	// Update is called once per frame

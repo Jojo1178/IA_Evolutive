@@ -54,7 +54,7 @@ public class Decision : MonoBehaviour {
 		{
 			Consequences TempCons = monde.GetConsequenceById(PossibleConsequences[i]);
 
-			List<Actions> PossibleActions = TempCons.ActionsList;
+            List<Actions> PossibleActions = TempCons.ActionsLinked;
 
 			int ActionScore = 0;
 			Actions TempSelectedAction = null;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Types : MonoBehaviour {
+public class Types : World {
 
 	private int typeID;
 	private string typeName;
@@ -30,7 +30,8 @@ public class Types : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	public virtual void Update () {
+    public virtual void Update()
+    {
 	
 	}
 
@@ -38,5 +39,6 @@ public class Types : MonoBehaviour {
 	{
 		typeID = ID;
 		typeName = Name;
+        AllTypes.Add(this);
 	}
 }

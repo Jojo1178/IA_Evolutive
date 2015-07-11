@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Consequences : World {
+public class Consequences {
 
 	private List<Actions> actionsLinked = new List<Actions>();
     private List<Objets> objets = new List<Objets>();
@@ -57,12 +57,12 @@ public class Consequences : World {
 	}
 
 	// Use this for initialization
-	public new virtual void Start () {
+	public  virtual void Start () {
 	
 	}
 	
 	// Update is called once per frame
-	public new  virtual void Update () {
+	public  virtual void Update () {
 	
 	}
 

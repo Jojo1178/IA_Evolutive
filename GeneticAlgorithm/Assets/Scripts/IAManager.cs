@@ -4,8 +4,11 @@ using System.Collections.Generic;
 
 public class IAManager : MonoBehaviour {
 
+    [HideInInspector]
     public AI LearningAI;
+    [HideInInspector]
     public World CurrentWorld;
+    [HideInInspector]
     public ActionTrees OrdersChain;
     public GameManager Manager;
 
@@ -39,10 +42,10 @@ public class IAManager : MonoBehaviour {
                 Manager.ActionDone = false;
             }
         }
-        //else if (!Creation)
-        //{
-        //    Debug.Log(OrdersChain);
-        //}
+        else if (!Creation)
+        {
+            Debug.Log(OrdersChain);
+        }
 	}
 
     private void SendOrder(int IDAction)

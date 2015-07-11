@@ -76,21 +76,20 @@ public class IAManager : MonoBehaviour {
         Objets buildingobjet = new Objets();
         buildingobjet.Create(1, "Building");
 
-        Actions[] ActionsPossible = new Actions[4];
+        List<Actions> ActionsPossible = new List<Actions>();
         Actions action = new Actions();
 
         action.Create(1, "GetWood");
-        ActionsPossible[0] = action;
+        ActionsPossible.Add(action);
 
         action.Create(2, "GetFood");
-        ActionsPossible[1] = action;
+        ActionsPossible.Add(action);
 
         action.Create(3, "BuildBuliding");
-        ActionsPossible[2] = action;
+        ActionsPossible.Add(action);
 
         action.Create(4, "ReturnToBase");
-        ActionsPossible[3] = action;
-
+        ActionsPossible.Add(action);
 
         CurrentWorld.ActionList = ActionsPossible;
 
@@ -99,42 +98,54 @@ public class IAManager : MonoBehaviour {
         Objectives objs = new Objectives();
         Types t = new Types();
         Consequences csq = new Consequences();
-        Actions[] acts = new Actions[1];
-        Objets[] obejs = new Objets[1];
-        CurrentWorld.AllInteractions = new Consequences[4];
+        List<Actions> acts = new List<Actions>();
+        List<Objets> obejs = new List<Objets>();
+        CurrentWorld.AllInteractions = new List<Consequences>();
 
 
         t.Create(1, "GetWood");
         objs.Create(false, t, 10, CurrentWorld.GetActionById(1));
         ObjectivesList.Add(objs);
-        acts[0] = ActionsPossible[0];
-        obejs[0] = woodobjet;
+        acts.Add(ActionsPossible[0]);
+        obejs.Add(woodobjet);
         csq.Create(acts, obejs, 1, "Collecting Wood", t);
-        CurrentWorld.AllInteractions[0] = csq;
+        CurrentWorld.AllInteractions.Add(csq);
+
+        acts.Clear();
+        obejs.Clear();
 
         t.Create(2, "GetFood");
         objs.Create(false, t, 10, CurrentWorld.GetActionById(2));
         ObjectivesList.Add(objs);
-        acts[0] = ActionsPossible[1];
-        obejs[0] = foodobjet;
+        acts.Add(ActionsPossible[1]);
+        obejs.Add(foodobjet);
         csq.Create(acts, obejs, 2, "Collecting Food", t);
-        CurrentWorld.AllInteractions[1] = csq;
+        CurrentWorld.AllInteractions.Add(csq);
+
+        acts.Clear();
+        obejs.Clear();
 
         t.Create(3, "BuildBuilding");
         objs.Create(false, t, 1, CurrentWorld.GetActionById(3));
         ObjectivesList.Add(objs);
-        acts[0] = ActionsPossible[2];
-        obejs[0] = buildingobjet;
+        acts.Add(ActionsPossible[2]);
+        obejs.Add(buildingobjet);
         csq.Create(acts, obejs, 3, "Build Building", t);
-        CurrentWorld.AllInteractions[2] = csq;
+        CurrentWorld.AllInteractions.Add(csq);
+
+        acts.Clear();
+        obejs.Clear();
 
         t.Create(4, "HaveThreeBuliding");
         objs.Create(true, t, 10, CurrentWorld.GetActionById(3));
         ObjectivesList.Add(objs);
-        acts[0] = ActionsPossible[2];
-        obejs[0] = buildingobjet;
+        acts.Add(ActionsPossible[2]);
+        obejs.Add(buildingobjet);
         csq.Create(acts, obejs, 4, "Build 3 Building", t);
-        CurrentWorld.AllInteractions[3] = csq;
+        CurrentWorld.AllInteractions.Add(csq);
+
+        acts.Clear();
+        obejs.Clear();
 
         LearningAI = gameObject.AddComponent<AI>();
         LearningAI.Create(objs, 3, CurrentWorld);

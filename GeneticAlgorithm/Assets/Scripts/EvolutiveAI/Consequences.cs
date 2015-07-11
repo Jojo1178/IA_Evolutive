@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Consequences : World {
 
-	private Actions[] actionsList;
-	private Objets[] objets;
+	private List<Actions> actionsList = new List<Actions>();
+    private List<Objets> objets = new List<Objets>();
 	private int consequenceId;
 	private string consequenceName;
 	private Types type;
 
-	public Actions[] ActionsList {
+    public List<Actions> ActionsList
+    {
 		get {
 			return actionsList;
 		}
@@ -18,7 +20,7 @@ public class Consequences : World {
 		}
 	}
 
-	public Objets[] Objets {
+	public List<Objets> Objets {
 		get {
 			return objets;
 		}
@@ -64,7 +66,7 @@ public class Consequences : World {
 	
 	}
 
-	public virtual void Create(Actions[] linkedActions,Objets[] linkedObjects, int ID, string Name, Types ConsType)
+	public virtual void Create(List<Actions> linkedActions,List<Objets> linkedObjects, int ID, string Name, Types ConsType)
 	{
 		actionsList = linkedActions;
 		objets = linkedObjects;
@@ -72,7 +74,7 @@ public class Consequences : World {
 		consequenceName = Name;
 		type = ConsType;
 
-        //AllInteractions[AllInteractions.Length] = this;
+        AllInteractions.Add(this);
 	}
 
     //public virtual void Create(Actions linkedActions, Objets linkedObjects, int ID, string Name, Types ConsType)

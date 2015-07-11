@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
 
 public class Decision : MonoBehaviour {
 
@@ -38,29 +40,26 @@ public class Decision : MonoBehaviour {
 
 	public ActionTrees CreateActionTree(Objectives LongTermObjective,int MaximumNumberOfActions)
 	{
-		int[] PossibleConsequences = monde.GetConsequencesByType(LongTermObjective.Type);
-		int[] SelectedActions = null;
-
-
+		List<int> PossibleConsequences = monde.GetConsequencesByType(LongTermObjective.Type);
+		List<int> SelectedActions = new List<int>();
 
 		int TempScore = 0;
 		int ArrayCounter = 0;
 
 		ActionTrees CreatedTree;
 
-		SelectedActions.Initialize();
 		CreatedTree = null;
 
-		for (int i = 0; i < PossibleConsequences.Length; i++) 
+		for (int i = 0; i < PossibleConsequences.Count; i++) 
 		{
 			Consequences TempCons = monde.GetConsequenceById(PossibleConsequences[i]);
 
-			Actions[] PossibleActions = TempCons.ActionsList;
+            List<Actions> PossibleActions = TempCons.ActionsLinked;
 
 			int ActionScore = 0;
 			Actions TempSelectedAction = null;
 
-			for(int j = 0; j < PossibleActions.Length; j++)
+			for(int j = 0; j < PossibleActions.Count; j++)
 			{
 				if(ActionScore == 0 && PossibleActions[i].Score > 0)
 				{
@@ -88,16 +87,16 @@ public class Decision : MonoBehaviour {
 
 			if(ActionScore > 0)
 			{
-				SelectedActions[ArrayCounter] = TempSelectedAction.ActionID;
+				SelectedActions.Add(TempSelectedAction.ActionID);
 				ArrayCounter++;
 			}
 
 			TempScore += ActionScore;
 			ActionScore = 0;
 
-			if(TempScore >= LongTermObjective.ResearchedScore || SelectedActions.Length > MaximumNumberOfActions)
+			if(TempScore >= LongTermObjective.ResearchedScore || SelectedActions.Count > MaximumNumberOfActions)
 			{
-				SelectedActions[ArrayCounter] = LongTermObjective.FinalAction.ActionID;
+				SelectedActions.Add(LongTermObjective.FinalAction.ActionID);
 				CreatedTree.ListOfActions = SelectedActions;
 				CreatedTree.TreeScore = TempScore;
 
@@ -105,9 +104,9 @@ public class Decision : MonoBehaviour {
 			}
 		}
 
-		if(SelectedActions.Length > 0)
+		if(SelectedActions.Count > 0)
 		{
-			SelectedActions[ArrayCounter] = LongTermObjective.FinalAction.ActionID;
+			SelectedActions.Add(LongTermObjective.FinalAction.ActionID);
 			CreatedTree.ListOfActions = SelectedActions;
 			CreatedTree.TreeScore = TempScore;
 			

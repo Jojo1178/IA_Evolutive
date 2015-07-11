@@ -5,13 +5,15 @@ using System.Collections.Generic;
 public class World : MonoBehaviour {
 
 
-	private Consequences[] allInteractions;
+    private List<Actions> actionList = new List<Actions>();
+    private List<Consequences> allInteractions = new List<Consequences>();
+    private List<Types> allTypes = new List<Types>();
 
-    public List<GameObject> CharacterList;
-    public List<Vector3> WoodList;
-    public List<Vector3> FoodList;
+    public List<IAGathering> CharacterList = new List<IAGathering>();
+    public List<GameObject> WoodList = new List<GameObject>();
+    public List<GameObject> FoodList = new List<GameObject>();
 
-	public Consequences[] AllInteractions {
+	public List<Consequences> AllInteractions {
 		get {
 			return allInteractions;
 		}
@@ -20,26 +22,42 @@ public class World : MonoBehaviour {
 		}
 	}
 
+    public List<Actions> ActionList
+    {
+        get { return actionList; }
+        set { actionList = value; }
+    }
+
+
+    public List<Types> AllTypes
+    {
+        get { return allTypes; }
+        set { allTypes = value; }
+    }
+
+
 	// Use this for initialization
 	public virtual void Start () {
-		allInteractions.Initialize();
+
 	}
 	
 	// Update is called once per frame
 	public virtual void Update () {
+
+
 	
 	}
 
-	public int[] GetConsequencesByType(Types type)
+	public List<int> GetConsequencesByType(Types type)
 	{
-		int[] AllConsequencesId = null;
+		List<int> AllConsequencesId = new List<int>();
 		int ArrayCounter = 0;
 
-		for (int i = 0; i < allInteractions.Length; i++) 
+		for (int i = 0; i < allInteractions.Count; i++) 
 		{
 			if(allInteractions[i].Type == type)
 			{
-				AllConsequencesId[ArrayCounter] = allInteractions[i].ConsequenceId;
+				AllConsequencesId.Add(allInteractions[i].ConsequenceId);
 				ArrayCounter++;
 			}
 		}
@@ -51,7 +69,7 @@ public class World : MonoBehaviour {
 
 	public Consequences GetConsequenceById(int Id)
 	{
-		for (int i = 0; i < allInteractions.Length; i++) 
+        for (int i = 0; i < allInteractions.Count; i++) 
 		{
 			if(allInteractions[i].ConsequenceId == Id)
 			{
@@ -61,4 +79,17 @@ public class World : MonoBehaviour {
 
 		return null;
 	}
+
+    public Actions GetActionById(int Id)
+    {
+        for (int i = 0; i < actionList.Count; i++)
+        {
+            if(actionList[i].ActionID == Id)
+            {
+                return actionList[i];
+            }
+        }
+
+        return null;
+    }
 }

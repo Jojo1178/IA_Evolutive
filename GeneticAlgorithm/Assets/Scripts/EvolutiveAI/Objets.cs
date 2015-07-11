@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Objets : MonoBehaviour {
+public class Objets : World {
 
 	private int objectID;
 	private string objectName;
@@ -25,12 +25,13 @@ public class Objets : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Start () {
+    public virtual void Start()
+    {
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
 	
 	}
 

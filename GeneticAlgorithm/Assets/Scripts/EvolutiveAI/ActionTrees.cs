@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class ActionTrees : MonoBehaviour {
+public class ActionTrees : World {
 
-	private int[] listOfActions;
+	private List<int> listOfActions = new List<int>();
 	private int treeScore;
 	private Objectives objectif;
 
@@ -25,7 +26,7 @@ public class ActionTrees : MonoBehaviour {
 		}
 	}
 
-	public int[] ListOfActions {
+	public List<int> ListOfActions {
 		get {
 			return listOfActions;
 		}

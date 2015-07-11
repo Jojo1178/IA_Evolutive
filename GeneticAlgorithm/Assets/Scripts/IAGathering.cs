@@ -34,8 +34,8 @@ public class IAGathering : MonoBehaviour {
 	// Use this for initialization
     void Start()
     {
-        if (!Manager.CharacterList.Contains(this.gameObject))
-            Manager.CharacterList.Add(this.gameObject);
+        if (!Manager.CharacterList.Contains(this))
+            Manager.CharacterList.Add(this);
         Priority = new List<BaseStacksManager.RESOURCES_TYPE>();
         switch (SeedKeyPriority)
         {
@@ -160,6 +160,7 @@ public class IAGathering : MonoBehaviour {
         foreach (KeyValuePair< BaseStacksManager.RESOURCES_TYPE, int> ent in Manager.baseStackManagerScript.ResourcesMaxValues)
             Manager.baseStackManagerScript.ResourcesMaxValues[ent.Key] += 50;
         //IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
+        Manager.ActionDone = true;
         Staking = false;
         Travel = false;
         //throw new System.NotImplementedException();
@@ -180,6 +181,7 @@ public class IAGathering : MonoBehaviour {
             }
             //IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
             GatheringState = GATHERING_STATE.NONE;
+            Manager.ActionDone = true;
             Staking = false;
             Travel = false;
         }

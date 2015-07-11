@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Actions : MonoBehaviour {
+public class Actions : World {
 
 
 	private int actionID;
@@ -56,6 +56,7 @@ public class Actions : MonoBehaviour {
 		actionID = ID;
 		actionName = Name;
 		score = 0;
+        ActionList.Add(this);
 	}
 
 

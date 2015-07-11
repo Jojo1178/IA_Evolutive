@@ -1,24 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class Consequences : MonoBehaviour {
+public class Consequences : World {
 
-	private Actions[] actionsList;
-	private Objets[] objets;
+	private List<Actions> actionsLinked = new List<Actions>();
+    private List<Objets> objets = new List<Objets>();
 	private int consequenceId;
 	private string consequenceName;
 	private Types type;
 
-	public Actions[] ActionsList {
+    public List<Actions> ActionsLinked
+    {
 		get {
-			return actionsList;
+            return actionsLinked;
 		}
 		set {
-			actionsList = value;
+            actionsLinked = value;
 		}
 	}
 
-	public Objets[] Objets {
+	public List<Objets> Objets {
 		get {
 			return objets;
 		}
@@ -64,14 +66,27 @@ public class Consequences : MonoBehaviour {
 	
 	}
 
-	public virtual void Create(Actions[] linkedActions,Objets[] linkedObjects, int ID, string Name, Types ConsType)
+	public virtual void Create(List<Actions> linkedActions,List<Objets> linkedObjects, int ID, string Name, Types ConsType)
 	{
-		actionsList = linkedActions;
+        actionsLinked = linkedActions;
 		objets = linkedObjects;
 		consequenceId = ID;
 		consequenceName = Name;
 		type = ConsType;
+
+        AllInteractions.Add(this);
 	}
+
+    //public virtual void Create(Actions linkedActions, Objets linkedObjects, int ID, string Name, Types ConsType)
+    //{
+    //    actionsList[0] = linkedActions;
+    //    objets[0] = linkedObjects;
+    //    consequenceId = ID;
+    //    consequenceName = Name;
+    //    type = ConsType;
+    //
+    //    AllInteractions[AllInteractions.Length] = this;
+    //}
 
 
 }

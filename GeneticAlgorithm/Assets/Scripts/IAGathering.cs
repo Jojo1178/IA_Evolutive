@@ -6,7 +6,7 @@ public class IAGathering : MonoBehaviour {
 
     public GameManager Manager;
     public IANavigationScript NavScript;
-    public IAManager IAScript;
+    //public IAManager IAScript;
     public GameObject Base;
 
     [Range(0,1)]

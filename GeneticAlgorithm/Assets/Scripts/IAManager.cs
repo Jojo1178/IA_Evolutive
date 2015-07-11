@@ -31,7 +31,7 @@ public class IAManager : MonoBehaviour {
         if (OrdersChain)
         {
             int IDAction = OrdersChain.ListOfActions[CurrentOrder];
-
+            Debug.Log("Current Action : " + IDAction);
             if (CurrentOrder == 0 || Manager.ActionDone)
             {
                 SendOrder(IDAction);
@@ -39,6 +39,10 @@ public class IAManager : MonoBehaviour {
                 Manager.ActionDone = false;
             }
         }
+        //else if (!Creation)
+        //{
+        //    Debug.Log(OrdersChain);
+        //}
 	}
 
     private void SendOrder(int IDAction)

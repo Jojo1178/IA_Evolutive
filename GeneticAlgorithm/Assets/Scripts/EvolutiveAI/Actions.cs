@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Actions : World {
+public class Actions {
 
 
 	private int actionID;
@@ -37,12 +37,12 @@ public class Actions : World {
 	}
 
 	// Use this for initialization
-	public new  virtual void Start () {
+	public virtual void Start () {
 	
 	}
 
 	// Update is called once per frame
-	public new  virtual void Update () {
+	public virtual void Update () {
 	
 	}
 

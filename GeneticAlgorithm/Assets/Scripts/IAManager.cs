@@ -28,7 +28,7 @@ public class IAManager : MonoBehaviour {
             CurrentWorld.FoodList = Manager.pointOfInterrestScript.foodGO;
             CreateObjectives();
         }
-        if (OrdersChain)
+        if (OrdersChain != null)
         {
             int IDAction = OrdersChain.ListOfActions[CurrentOrder];
             Debug.Log("Current Action : " + IDAction);
@@ -114,28 +114,28 @@ public class IAManager : MonoBehaviour {
         List<Objets> obejs4 = new List<Objets>();
 
 
-        t.Create(1, "GetWood");
+        t.Create(1, "GetWood", ref CurrentWorld);
         objs.Create(false, t, 10, CurrentWorld.GetActionById(1));
         ObjectivesList.Add(objs);
         acts.Add(ActionsPossible[0]);
         obejs.Add(woodobjet);
         csq.Create(acts, obejs, 1, "Collecting Wood", t, ref CurrentWorld);
 
-        t.Create(2, "GetFood");
+        t.Create(2, "GetFood", ref CurrentWorld);
         objs.Create(false, t, 10, CurrentWorld.GetActionById(2));
         ObjectivesList.Add(objs);
         acts2.Add(ActionsPossible[1]);
         obejs2.Add(foodobjet);
         csq.Create(acts, obejs, 2, "Collecting Food", t, ref CurrentWorld);
 
-        t.Create(3, "BuildBuilding");
+        t.Create(3, "BuildBuilding", ref CurrentWorld);
         objs.Create(false, t, 1, CurrentWorld.GetActionById(3));
         ObjectivesList.Add(objs);
         acts3.Add(ActionsPossible[2]);
         obejs3.Add(buildingobjet);
         csq.Create(acts, obejs, 3, "Build Building", t, ref CurrentWorld);
 
-        t.Create(4, "HaveThreeBuliding");
+        t.Create(4, "HaveThreeBuliding", ref CurrentWorld);
         objs.Create(true, t, 10, CurrentWorld.GetActionById(3));
         ObjectivesList.Add(objs);
         acts4.Add(ActionsPossible[2]);
@@ -145,6 +145,11 @@ public class IAManager : MonoBehaviour {
         LearningAI = gameObject.AddComponent<AI>();
         LearningAI.Create(objs, 3, CurrentWorld);
         OrdersChain = LearningAI.ChooseActions();
+
+        if(OrdersChain != null)
+        {
+            int Test = 0;
+        }
     }
 
     public void GiveOrder(GameObject character, IAGathering.GATHERING_STATE order)

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class Decision : MonoBehaviour {
+public class Decision{
 
 	private World monde;
 	private int curScore;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Types : World {
+public class Types {
 
 	private int typeID;
 	private string typeName;
@@ -25,20 +25,20 @@ public class Types : World {
 	}
 
 	// Use this for initialization
-	public override void Start () {
+	public void Start () {
 	
 	}
 	
 	// Update is called once per frame
-    public override void Update()
+    public void Update()
     {
 	
 	}
 
-	public virtual void Create(int ID, string Name)
+	public virtual void Create(int ID, string Name, ref World CurWorld)
 	{
 		typeID = ID;
 		typeName = Name;
-        AllTypes.Add(this);
+        CurWorld.AllTypes.Add(this);
 	}
 }

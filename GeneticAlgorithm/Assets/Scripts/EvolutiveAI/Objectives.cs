@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Objectives : MonoBehaviour {
+public class Objectives{
 
 	private bool longTerm;
 	private Types type;

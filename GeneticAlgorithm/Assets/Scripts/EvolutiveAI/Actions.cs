@@ -37,12 +37,12 @@ public class Actions : World {
 	}
 
 	// Use this for initialization
-	public virtual void Start () {
+	public new  virtual void Start () {
 	
 	}
 
 	// Update is called once per frame
-	public virtual void Update () {
+	public new  virtual void Update () {
 	
 	}
 
@@ -51,12 +51,12 @@ public class Actions : World {
 
 	}
 
-	public virtual void Create(int ID, string Name)
+	public virtual void Create(int ID, string Name,int ActionsScore, ref World CurWorld)
 	{
 		actionID = ID;
 		actionName = Name;
-		score = 0;
-        ActionList.Add(this);
+        score = ActionsScore;
+        CurWorld.ActionList.Add(this);
 	}
 
 

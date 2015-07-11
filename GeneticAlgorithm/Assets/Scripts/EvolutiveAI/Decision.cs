@@ -29,7 +29,6 @@ public class Decision : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-	
 	}
 	
 	// Update is called once per frame
@@ -46,9 +45,7 @@ public class Decision : MonoBehaviour {
 		int TempScore = 0;
 		int ArrayCounter = 0;
 
-		ActionTrees CreatedTree;
-
-		CreatedTree = null;
+		ActionTrees CreatedTree = new ActionTrees();
 
 		for (int i = 0; i < PossibleConsequences.Count; i++) 
 		{
@@ -96,7 +93,11 @@ public class Decision : MonoBehaviour {
 
 			if(TempScore >= LongTermObjective.ResearchedScore || SelectedActions.Count > MaximumNumberOfActions)
 			{
-				SelectedActions.Add(LongTermObjective.FinalAction.ActionID);
+                if (LongTermObjective.FinalAction != null)
+                {
+                    SelectedActions.Add(LongTermObjective.FinalAction.ActionID);
+                }
+
 				CreatedTree.ListOfActions = SelectedActions;
 				CreatedTree.TreeScore = TempScore;
 
@@ -106,7 +107,10 @@ public class Decision : MonoBehaviour {
 
 		if(SelectedActions.Count > 0)
 		{
-			SelectedActions.Add(LongTermObjective.FinalAction.ActionID);
+            if (LongTermObjective.FinalAction != null)
+            {
+                SelectedActions.Add(LongTermObjective.FinalAction.ActionID);
+            }
 			CreatedTree.ListOfActions = SelectedActions;
 			CreatedTree.TreeScore = TempScore;
 			

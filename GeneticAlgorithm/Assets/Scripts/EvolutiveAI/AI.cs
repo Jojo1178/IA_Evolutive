@@ -6,7 +6,7 @@ public class AI : MonoBehaviour {
 	private Objectives longTermObjective;
 	private int numberOfActionsPossible;
 	private World monde;
-    private Decision DecisionMaker;
+    private Decision DecisionMaker = new Decision();
 
 	public Objectives LongTermObjective {
 		get {
@@ -55,10 +55,6 @@ public class AI : MonoBehaviour {
 		LongTermObjective = LGObjective;
 		NumberOfActionsPossible = NumberOfActions;
 		Monde = CurWorld;
-        
-        if(DecisionMaker == null)
-            DecisionMaker = new Decision();
-
         DecisionMaker.Create(CurWorld);
 	}
 

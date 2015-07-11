@@ -57,16 +57,16 @@ public class Consequences : World {
 	}
 
 	// Use this for initialization
-	public virtual void Start () {
+	public new virtual void Start () {
 	
 	}
 	
 	// Update is called once per frame
-	public virtual void Update () {
+	public new  virtual void Update () {
 	
 	}
 
-	public virtual void Create(List<Actions> linkedActions,List<Objets> linkedObjects, int ID, string Name, Types ConsType)
+	public virtual void Create(List<Actions> linkedActions,List<Objets> linkedObjects, int ID, string Name, Types ConsType,ref World CurWorld)
 	{
         actionsLinked = linkedActions;
 		objets = linkedObjects;
@@ -74,7 +74,7 @@ public class Consequences : World {
 		consequenceName = Name;
 		type = ConsType;
 
-        AllInteractions.Add(this);
+        CurWorld.AllInteractions.Add(this);
 	}
 
     //public virtual void Create(Actions linkedActions, Objets linkedObjects, int ID, string Name, Types ConsType)

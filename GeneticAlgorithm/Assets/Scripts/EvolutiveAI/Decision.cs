@@ -51,6 +51,9 @@ public class Decision{
 		{
 			Consequences TempCons = monde.GetConsequenceById(PossibleConsequences[i]);
 
+            if (TempCons.Type != LongTermObjective.Type)
+                continue;
+
             List<Actions> PossibleActions = TempCons.ActionsLinked;
 
 			int ActionScore = 0;
@@ -58,24 +61,24 @@ public class Decision{
 
 			for(int j = 0; j < PossibleActions.Count; j++)
 			{
-				if(ActionScore == 0 && PossibleActions[i].Score > 0)
+				if(ActionScore == 0 && PossibleActions[j].Score > 0)
 				{
 					int Score = TempScore;
-					if((Score += PossibleActions[i].Score) > TempScore)
+					if((Score += PossibleActions[j].Score) > TempScore)
 					{
-						ActionScore = PossibleActions[i].Score;
-						TempSelectedAction = PossibleActions[i];
+						ActionScore = PossibleActions[j].Score;
+						TempSelectedAction = PossibleActions[j];
 					}
 				}
 				else
 				{
-					if(PossibleActions[i].Score > ActionScore)
+					if(PossibleActions[j].Score > ActionScore)
 					{
 						int Score = TempScore;
-						if((Score += PossibleActions[i].Score) > TempScore)
+						if((Score += PossibleActions[j].Score) > TempScore)
 						{
-							ActionScore = PossibleActions[i].Score;
-							TempSelectedAction = PossibleActions[i];
+							ActionScore = PossibleActions[j].Score;
+							TempSelectedAction = PossibleActions[j];
 						}
 					}
 				}
@@ -101,6 +104,10 @@ public class Decision{
 				CreatedTree.ListOfActions = SelectedActions;
 				CreatedTree.TreeScore = TempScore;
 
+
+                if (TempScore < LongTermObjective.ResearchedScore && TempScore > 0)
+                     LongTermObjective.ResearchedScore = TempScore;
+
 				return CreatedTree;
 			}
 		}
@@ -113,9 +120,11 @@ public class Decision{
             }
 			CreatedTree.ListOfActions = SelectedActions;
 			CreatedTree.TreeScore = TempScore;
-			
-
 		}
+
+        if (TempScore < LongTermObjective.ResearchedScore && TempScore > 0)
+            LongTermObjective.ResearchedScore = TempScore;
+
 		return CreatedTree;
 	}
 

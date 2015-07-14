@@ -1,12 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
+public enum Typeobjectif
+{
+    FOOD,
+    WOOD,
+    BUILD
+}
+
+
 public class Objectives{
 
 	private bool longTerm;
 	private Types type;
 	private int researchedScore;
 	private Actions finalAction;
+
+
+    private Typeobjectif objectifType;
+
+    public Typeobjectif ObjectifType
+    {
+        get { return objectifType; }
+        set { objectifType = value; }
+    }
 
 	public bool LongTerm {
 		get {
@@ -54,11 +72,12 @@ public class Objectives{
 	
 	}
 
-	public virtual void Create(bool IsLongTerm,Types ObjectiveType, int TheResearchedScore,Actions TheFinalAction)
+	public virtual void Create(bool IsLongTerm,Types ObjectiveType, int TheResearchedScore,Actions TheFinalAction, Typeobjectif objtype)
 	{
 		longTerm = IsLongTerm;
 		type = ObjectiveType;
 		researchedScore = TheResearchedScore;
 		finalAction = TheFinalAction;
+        objectifType = objtype;
 	}
 }

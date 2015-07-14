@@ -12,6 +12,9 @@ public class World : MonoBehaviour {
     public List<IAGathering> CharacterList = new List<IAGathering>();
     public List<GameObject> WoodList = new List<GameObject>();
     public List<GameObject> FoodList = new List<GameObject>();
+    public int CompteurFood = 0;
+    public int CompteurWood = 0;
+    public int CompteurBuild = 0;
 
 	public List<Consequences> AllInteractions {
 		get {

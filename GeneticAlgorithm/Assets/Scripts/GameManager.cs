@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
     public bool researchFinished = false;
     //script PointOfInterest
 	public PointOfInterest pointOfInterrestScript;
-
+    public int NextBuildPlace;
     //Vrai quand une avtion est terminée
     public bool ActionDone = false;
 

@@ -20,6 +20,10 @@ public class IAGathering : MonoBehaviour {
     public int[] Inventory;
     public int Quantity;
 
+    public Vector3[] BuildPlace;
+
+    public GameObject House;
+
     private bool Staking = false;
     private bool Travel = false;
     private bool DoingStuff = false;
@@ -119,15 +123,19 @@ public class IAGathering : MonoBehaviour {
                         DoingStuff = false;
                     break;
                 case GATHERING_STATE.BUILDING:
+                    if (Manager.NextBuildPlace < Manager.baseStackManagerScript.BuildingPlaces.Count) { 
                     if (Travel == false)
                     {
-                        NavScript.dest = "build";
+                        NavScript.agent.SetDestination(Manager.baseStackManagerScript.BuildingPlaces[Manager.NextBuildPlace].Key);
+                        NavScript.travelFinished = false;
+                        Manager.NextBuildPlace++;
+                        //NavScript.dest = "build";
                         Debug.Log("Going to Build stuff");
                         Travel = true;
                     }
                     if (NavScript.travelFinished && Vector3.Distance(transform.position, NavScript.agent.destination) < Distance)
                     {
-                        StartCoroutine(BuildBulding());
+                        StartCoroutine(BuildBulding(Manager.baseStackManagerScript.BuildingPlaces[Manager.NextBuildPlace].Key));
                         //if (Manager.baseStackManagerScript.ResourcesStacked[BaseStacksManager.RESOURCES_TYPE.WOOD] > 10)
                         //    StartCoroutine(BuildBulding());
                         //else
@@ -135,6 +143,7 @@ public class IAGathering : MonoBehaviour {
                     }
                     else
                         DoingStuff = false;
+                        }
                     break;
             }
         }
@@ -179,12 +188,13 @@ public class IAGathering : MonoBehaviour {
         }
     }*/
 
-    private IEnumerator BuildBulding()
+    private IEnumerator BuildBulding(Vector3 place)
     {
         if (!Staking)
         {
             Staking = true;
-            Debug.LogWarning("Create Building animation missing");
+            //Debug.LogWarning("Create Building animation missing");
+            Instantiate(House, place,Quaternion.identity);
             Manager.baseStackManagerScript.RemoveResources(BaseStacksManager.RESOURCES_TYPE.WOOD, 10);
             yield return new WaitForSeconds(3);
             foreach (BaseStacksManager.RESOURCES_TYPE ent in Enum.GetValues(typeof(BaseStacksManager.RESOURCES_TYPE)))

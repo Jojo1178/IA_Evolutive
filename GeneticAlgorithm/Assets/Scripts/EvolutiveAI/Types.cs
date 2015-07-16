@@ -41,4 +41,14 @@ public class Types {
 		typeName = Name;
         CurWorld.AllTypes.Add(this);
 	}
+
+    public static bool operator ==(Types type1, Types type2)
+    {
+        return (type1.TypeID == type2.TypeID && type1.TypeName == type2.TypeName);
+    }
+
+    public static bool operator !=(Types type1, Types type2)
+    {
+        return (type1.TypeID != type2.TypeID && type1.TypeName != type2.TypeName);
+    }
 }

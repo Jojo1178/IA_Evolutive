@@ -5,13 +5,25 @@ using System.Collections.Generic;
 
 public struct SavedAction
 {
-    public Objectives objective;
-    public ActionTrees actionTree;
+    private Objectives objective;
+
+    public Objectives Objective
+    {
+        get { return objective; }
+        set { objective = value; }
+    }
+    private ActionTrees actionTree;
+
+    public ActionTrees ActionTree
+    {
+        get { return actionTree; }
+        set { actionTree = value; }
+    }
 
     public void Create(Objectives newObjective, ActionTrees newTree)
     {
-        objective = newObjective;
-        actionTree = newTree;
+        Objective = newObjective;
+        ActionTree = newTree;
     }
 }
 
@@ -56,6 +68,7 @@ public class IAManager : MonoBehaviour {
             else
             {
                 CurrentOrder = 0;
+                CreateObjectives();
                 DoAction();
             }
         }
@@ -234,7 +247,7 @@ public class IAManager : MonoBehaviour {
     {
         for (int i = 0; i < savedAct.Count; i++)
         {
-            if (savedAct[i].objective == obj)
+            if (savedAct[i].Objective == obj)
             {
                 return true;
             }
@@ -247,9 +260,9 @@ public class IAManager : MonoBehaviour {
     {
         for (int i = 0; i < savedAct.Count; i++)
         {
-            if (savedAct[i].objective == obj)
+            if (savedAct[i].Objective == obj)
             {
-                return savedAct[i].actionTree;
+                return savedAct[i].ActionTree;
             }
         }
         return null;

@@ -80,4 +80,22 @@ public class Objectives{
 		finalAction = TheFinalAction;
         objectifType = objtype;
 	}
+
+    public static bool operator ==(Objectives obj1, Objectives obj2)
+    {
+        return (obj1.LongTerm == obj2.LongTerm 
+            && obj1.Type == obj2.Type  
+            && obj1.ResearchedScore == obj2.ResearchedScore
+            && obj1.ObjectifType == obj2.ObjectifType
+            && obj1.FinalAction == obj2.FinalAction);
+    }
+
+    public static bool operator !=(Objectives obj1, Objectives obj2)
+    {
+        return (obj1.LongTerm != obj2.LongTerm
+            && obj1.Type != obj2.Type
+            && obj1.ResearchedScore != obj2.ResearchedScore
+            && obj1.ObjectifType != obj2.ObjectifType
+            && obj1.FinalAction != obj2.FinalAction);
+    }
 }

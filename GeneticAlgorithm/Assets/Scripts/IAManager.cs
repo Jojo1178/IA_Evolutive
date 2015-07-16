@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using System;
 
 public struct SavedAction
 {
@@ -40,7 +40,9 @@ public class IAManager : MonoBehaviour {
     private int CurrentOrder;
     private bool Creation = true;
 
-    List<SavedAction> savedAct = new List<SavedAction>();
+    private List<Actions> ActionsPossible = new List<Actions>();
+    private List<Objectives> ObjectivesList = new List<Objectives>();
+    private List<SavedAction> savedAct = new List<SavedAction>();
 
 
 	// Use this for initialization
@@ -59,6 +61,7 @@ public class IAManager : MonoBehaviour {
             CurrentWorld.WoodList = Manager.pointOfInterrestScript.woodGO;
             CurrentWorld.FoodList = Manager.pointOfInterrestScript.foodGO;
             CreateObjectives();
+            CreateActionTree(ObjectivesList[3],3);
             DoAction();
         }
         if (OrdersChain != null && Manager.ActionDone)
@@ -68,9 +71,32 @@ public class IAManager : MonoBehaviour {
             else
             {
                 CurrentOrder = 0;
-                CreateObjectives();
+                CreateActionTree(ObjectivesList[4], 1);
                 DoAction();
             }
+        }
+    }
+
+    private void CreateActionTree(Objectives longObjective, int interation)
+    {
+        if (!ActionTreeAlreadyExist(longObjective))
+        {
+            LearningAI = gameObject.AddComponent<AI>();
+            LearningAI.Create(longObjective, interation, CurrentWorld);
+            OrdersChain = LearningAI.ChooseActions();
+
+            SavedAction newSave = new SavedAction();
+            newSave.Create(longObjective, OrdersChain);
+            savedAct.Add(newSave);
+        }
+        else
+        {
+            OrdersChain = GetActionTreeByObjective(longObjective);
+        }
+
+        if (OrdersChain != null)
+        {
+            Debug.Log("Order Size : " + OrdersChain.ListOfActions.Count);
         }
     }
 
@@ -135,7 +161,7 @@ public class IAManager : MonoBehaviour {
         Objets buildingobjet = new Objets();
         buildingobjet.Create(1, "Building");
 
-        List<Actions> ActionsPossible = new List<Actions>();
+        CurrentWorld.AllInteractions = new List<Consequences>();
         Actions action = new Actions();
         Actions action2 = new Actions();
         Actions action3 = new Actions();
@@ -155,10 +181,6 @@ public class IAManager : MonoBehaviour {
         ActionsPossible.Add(action4);
 
         CurrentWorld.ActionList = ActionsPossible;
-
-        
-        List<Objectives> ObjectivesList = new List<Objectives>();        
-        CurrentWorld.AllInteractions = new List<Consequences>();
 
         List<Actions> acts = new List<Actions>();
         List<Actions> acts2 = new List<Actions>();
@@ -225,26 +247,6 @@ public class IAManager : MonoBehaviour {
         acts5.Add(ActionsPossible[1]);
         obejs5.Add(foodobjet);
         csq5.Create(acts5, obejs5, 5, "Have 100 Food Unit", t5, ref CurrentWorld);
-
-        if (!ActionTreeAlreadyExist(objs))
-        {
-            LearningAI = gameObject.AddComponent<AI>();
-            LearningAI.Create(objs4, 3, CurrentWorld);
-            OrdersChain = LearningAI.ChooseActions();
-
-            SavedAction newSave = new SavedAction();
-            newSave.Create(objs, OrdersChain);
-            savedAct.Add(newSave);
-        }
-        else
-        {
-            OrdersChain = GetActionTreeByObjective(objs);
-        }
-        
-        if(OrdersChain != null)
-        {
-            Debug.Log("Order Size : " + OrdersChain.ListOfActions.Count);
-        }
     }
 
     public void GiveOrder(GameObject character, IAGathering.GATHERING_STATE order)

@@ -35,9 +35,10 @@ public class IAManager : MonoBehaviour {
 	void Start () {
         CurrentOrder = 0;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (Creation && Manager.numberOfRessources == 0)
         {
             Creation = false;
@@ -47,12 +48,18 @@ public class IAManager : MonoBehaviour {
             CurrentWorld.FoodList = Manager.pointOfInterrestScript.foodGO;
             CreateObjectives();
             DoAction();
-            CreateObjectives();
-            DoAction();
         }
-        if (OrdersChain != null && CurrentOrder < OrdersChain.ListOfActions.Count && Manager.ActionDone)
+        if (OrdersChain != null && Manager.ActionDone)
+        {
+            if (CurrentOrder < OrdersChain.ListOfActions.Count)
                 DoAction();
-	}
+            else
+            {
+                CurrentOrder = 0;
+                DoAction();
+            }
+        }
+    }
 
     private void DoAction()
     {

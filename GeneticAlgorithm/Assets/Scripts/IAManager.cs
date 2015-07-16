@@ -2,6 +2,19 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+public struct SavedAction
+{
+    public Objectives objective;
+    public ActionTrees actionTree;
+
+    public void Create(Objectives newObjective, ActionTrees newTree)
+    {
+        objective = newObjective;
+        actionTree = newTree;
+    }
+}
+
 public class IAManager : MonoBehaviour {
 
     [HideInInspector]
@@ -14,6 +27,9 @@ public class IAManager : MonoBehaviour {
 
     private int CurrentOrder;
     private bool Creation = true;
+
+    List<SavedAction> savedAct = new List<SavedAction>();
+
 
 	// Use this for initialization
 	void Start () {
@@ -29,6 +45,8 @@ public class IAManager : MonoBehaviour {
             CurrentWorld.CharacterList = Manager.CharacterList;
             CurrentWorld.WoodList = Manager.pointOfInterrestScript.woodGO;
             CurrentWorld.FoodList = Manager.pointOfInterrestScript.foodGO;
+            CreateObjectives();
+            DoAction();
             CreateObjectives();
             DoAction();
         }
@@ -177,14 +195,24 @@ public class IAManager : MonoBehaviour {
         obejs4.Add(buildingobjet);
         csq4.Create(acts4, obejs4, 4, "Build 3 Building", t4, ref CurrentWorld);
 
-        LearningAI = gameObject.AddComponent<AI>();
-        LearningAI.Create(objs, 3, CurrentWorld);
-        OrdersChain = LearningAI.ChooseActions();
+        if(!ActionTreeAlreadyExist(objs))
+        {
+            LearningAI = gameObject.AddComponent<AI>();
+            LearningAI.Create(objs, 3, CurrentWorld);
+            OrdersChain = LearningAI.ChooseActions();
 
+            SavedAction newSave = new SavedAction();
+            newSave.Create(objs, OrdersChain);
+            savedAct.Add(newSave);
+        }
+        else
+        {
+            OrdersChain = GetActionTreeByObjective(objs);
+        }
+        
         if(OrdersChain != null)
         {
             Debug.Log("Order Size : " + OrdersChain.ListOfActions.Count);
-            int Test = 0;
         }
     }
 
@@ -193,5 +221,30 @@ public class IAManager : MonoBehaviour {
         IAGathering gatheringScript = character.GetComponent<IAGathering>();
         if(gatheringScript)
             gatheringScript.GatheringState = order;
+    }
+
+    public bool ActionTreeAlreadyExist(Objectives obj)
+    {
+        for (int i = 0; i < savedAct.Count; i++)
+        {
+            if (savedAct[i].objective == obj)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    ActionTrees GetActionTreeByObjective(Objectives obj)
+    {
+        for (int i = 0; i < savedAct.Count; i++)
+        {
+            if (savedAct[i].objective == obj)
+            {
+                return savedAct[i].actionTree;
+            }
+        }
+        return null;
     }
 }

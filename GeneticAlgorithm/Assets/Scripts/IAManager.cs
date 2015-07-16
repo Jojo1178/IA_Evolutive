@@ -39,6 +39,7 @@ public class IAManager : MonoBehaviour {
 
     private int CurrentOrder;
     private bool Creation = true;
+    private int ObjIt = 0;
 
     private List<Actions> ActionsPossible = new List<Actions>();
     private List<Objectives> ObjectivesList = new List<Objectives>();
@@ -63,6 +64,7 @@ public class IAManager : MonoBehaviour {
             CreateObjectives();
             CreateActionTree(ObjectivesList[3],3);
             DoAction();
+            ObjIt = 1;
         }
         if (OrdersChain != null && Manager.ActionDone)
         {
@@ -71,8 +73,10 @@ public class IAManager : MonoBehaviour {
             else
             {
                 CurrentOrder = 0;
-                CreateActionTree(ObjectivesList[4], 1);
+                CreateActionTree(ObjIt == 1 ? ObjectivesList[4] : ObjectivesList[3], ObjIt == 1 ? 1 : 3);
                 DoAction();
+
+                ObjIt = (ObjIt == 0 ? 1 : 0);
             }
         }
     }

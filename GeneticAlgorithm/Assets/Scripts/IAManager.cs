@@ -157,34 +157,38 @@ public class IAManager : MonoBehaviour {
         CurrentWorld.ActionList = ActionsPossible;
 
         
-        List<Objectives> ObjectivesList = new List<Objectives>();
-        Objectives objs = new Objectives();
-        Types t = new Types();
-        Consequences csq = new Consequences();
-        List<Actions> acts = new List<Actions>();
-        List<Objets> obejs = new List<Objets>();
+        List<Objectives> ObjectivesList = new List<Objectives>();        
         CurrentWorld.AllInteractions = new List<Consequences>();
 
+        List<Actions> acts = new List<Actions>();
         List<Actions> acts2 = new List<Actions>();
-        List<Objets> obejs2 = new List<Objets>();
         List<Actions> acts3 = new List<Actions>();
-        List<Objets> obejs3 = new List<Objets>();
         List<Actions> acts4 = new List<Actions>();
+        List<Actions> acts5 = new List<Actions>();
+
+        List<Objets> obejs = new List<Objets>();
+        List<Objets> obejs2 = new List<Objets>();
+        List<Objets> obejs3 = new List<Objets>();
         List<Objets> obejs4 = new List<Objets>();
+        List<Objets> obejs5 = new List<Objets>();
 
-
+        Objectives objs = new Objectives();
         Objectives objs2 = new Objectives();
         Objectives objs3 = new Objectives();
         Objectives objs4 = new Objectives();
+        Objectives objs5 = new Objectives();
 
+        Consequences csq = new Consequences();
         Consequences csq2 = new Consequences();
         Consequences csq3 = new Consequences();
         Consequences csq4 = new Consequences();
+        Consequences csq5 = new Consequences();
 
-
+        Types t = new Types();
         Types t2 = new Types();
         Types t3 = new Types();
         Types t4 = new Types();
+        Types t5 = new Types();
 
 
         t.Create(1, "GetWood", ref CurrentWorld);
@@ -202,7 +206,7 @@ public class IAManager : MonoBehaviour {
         csq2.Create(acts2, obejs2, 2, "Collecting Food", t2, ref CurrentWorld);
 
         t3.Create(3, "BuildBuilding", ref CurrentWorld);
-        objs.Create("BuildBuilding",false, t3, 1, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
+        objs3.Create("BuildBuilding",false, t3, 1, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
         ObjectivesList.Add(objs3);
         acts3.Add(ActionsPossible[2]);
         obejs3.Add(buildingobjet);
@@ -215,10 +219,17 @@ public class IAManager : MonoBehaviour {
         obejs4.Add(buildingobjet);
         csq4.Create(acts4, obejs4, 4, "Build 3 Building", t4, ref CurrentWorld);
 
-        if(!ActionTreeAlreadyExist(objs))
+        t5.Create(5, "Have100FoodUnit", ref CurrentWorld);
+        objs5.Create("Have100FoodUnit", true, t5, 5, CurrentWorld.GetActionById(2), Typeobjectif.FOOD);
+        ObjectivesList.Add(objs5);
+        acts5.Add(ActionsPossible[1]);
+        obejs5.Add(foodobjet);
+        csq5.Create(acts5, obejs5, 5, "Have 100 Food Unit", t5, ref CurrentWorld);
+
+        if (!ActionTreeAlreadyExist(objs))
         {
             LearningAI = gameObject.AddComponent<AI>();
-            LearningAI.Create(objs, 3, CurrentWorld);
+            LearningAI.Create(objs4, 3, CurrentWorld);
             OrdersChain = LearningAI.ChooseActions();
 
             SavedAction newSave = new SavedAction();

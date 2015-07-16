@@ -188,28 +188,28 @@ public class IAManager : MonoBehaviour {
 
 
         t.Create(1, "GetWood", ref CurrentWorld);
-        objs.Create(false, t, 10, CurrentWorld.GetActionById(1), Typeobjectif.WOOD);
+        objs.Create("GetWood",false, t, 10, CurrentWorld.GetActionById(1), Typeobjectif.WOOD);
         ObjectivesList.Add(objs);
         acts.Add(ActionsPossible[0]);
         obejs.Add(woodobjet);
         csq.Create(acts, obejs, 1, "Collecting Wood", t, ref CurrentWorld);
 
         t2.Create(2, "GetFood", ref CurrentWorld);
-        objs2.Create(false, t2, 10, CurrentWorld.GetActionById(2), Typeobjectif.FOOD);
+        objs2.Create("GetFood",false, t2, 10, CurrentWorld.GetActionById(2), Typeobjectif.FOOD);
         ObjectivesList.Add(objs2);
         acts2.Add(ActionsPossible[1]);
         obejs2.Add(foodobjet);
         csq2.Create(acts2, obejs2, 2, "Collecting Food", t2, ref CurrentWorld);
 
         t3.Create(3, "BuildBuilding", ref CurrentWorld);
-        objs.Create(false, t3, 1, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
+        objs.Create("BuildBuilding",false, t3, 1, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
         ObjectivesList.Add(objs3);
         acts3.Add(ActionsPossible[2]);
         obejs3.Add(buildingobjet);
         csq3.Create(acts3, obejs3, 3, "Build Building", t3, ref CurrentWorld);
 
         t4.Create(4, "HaveThreeBuliding", ref CurrentWorld);
-        objs4.Create(true, t4, 7, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
+        objs4.Create("Build3Buildings",true, t4, 7, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
         ObjectivesList.Add(objs4);
         acts4.Add(ActionsPossible[2]);
         obejs4.Add(buildingobjet);

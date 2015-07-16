@@ -17,6 +17,13 @@ public class Objectives{
 	private int researchedScore;
 	private Actions finalAction;
 
+    private string objectiveName;
+
+    public string ObjectiveName
+    {
+        get { return objectiveName; }
+        set { objectiveName = value; }
+    }
 
     private Typeobjectif objectifType;
 
@@ -72,8 +79,9 @@ public class Objectives{
 	
 	}
 
-	public virtual void Create(bool IsLongTerm,Types ObjectiveType, int TheResearchedScore,Actions TheFinalAction, Typeobjectif objtype)
+	public virtual void Create(string name,bool IsLongTerm,Types ObjectiveType, int TheResearchedScore,Actions TheFinalAction, Typeobjectif objtype)
 	{
+        ObjectiveName = name;
 		longTerm = IsLongTerm;
 		type = ObjectiveType;
 		researchedScore = TheResearchedScore;
@@ -83,11 +91,7 @@ public class Objectives{
 
     public static bool operator ==(Objectives obj1, Objectives obj2)
     {
-        return (obj1.LongTerm == obj2.LongTerm 
-            && obj1.Type == obj2.Type  
-            && obj1.ResearchedScore == obj2.ResearchedScore
-            && obj1.ObjectifType == obj2.ObjectifType
-            && obj1.FinalAction == obj2.FinalAction);
+        return (obj1.ObjectiveName == obj2.ObjectiveName);
     }
 
     public static bool operator !=(Objectives obj1, Objectives obj2)

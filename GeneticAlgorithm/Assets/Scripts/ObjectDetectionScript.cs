@@ -8,9 +8,13 @@ public class ObjectDetectionScript : MonoBehaviour {
     public GameManager gameManagerScript;
 	public GameObject shield;
 
+	void Awake()
+	{
+		gameManagerScript.addElementToList(gameObject.transform.position, gameObject.name);
+	}
+
 	// Use this for initialization
 	void Start () {
-		gameManagerScript.addElementToList(gameObject.transform.position, gameObject.name);
 	}
 	
 	// Update is called once per frame

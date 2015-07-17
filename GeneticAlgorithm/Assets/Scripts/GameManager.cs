@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour {
 				limitSpecify = true;
 				terrain = new Rectangle(topLeftCorner, topRightCorner, BottomLeftCorner, BottomRightCorner );
 				divisionList = terrain.subdivideSquareBy4();
+				Debug.Log("Subdivision du terrain effectuée");
+				Debug.Log("Creation du dictionnaire des elements par zone");
 				createListAreaElement();
 			}
 		}
@@ -68,8 +70,6 @@ public class GameManager : MonoBehaviour {
             phase1 = false;
             phase2 = true;
         }
-
-		Debug.Log(listOfElements.Count);
 	}
 
     public void SubstractRessource()
@@ -108,15 +108,18 @@ public class GameManager : MonoBehaviour {
 
 	}
 
-	public Dictionary<int, int> createListAreaElement()
+	public void createListAreaElement()
 	{
+		Debug.Log("Initialisation de elementInArea");
 		elementInArea = new Dictionary<int, int>();
+		Debug.Log("Ajout d'element dans elementInArea");
 		elementInArea.Add(1, 0);
 		elementInArea.Add(2, 0);
 		elementInArea.Add(3, 0);
 		elementInArea.Add(4, 0);
+		Debug.Log("Boucle for");
 		
-		foreach(var elem in elementList)
+		foreach(var elem in listOfElements)
 		{	
 			foreach(var rect in divisionList)
 			{
@@ -132,8 +135,6 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 		}
-		
-		return elementInArea;
 	}
 
 	public bool ResearchInAreaEnabled(Vector3 position)

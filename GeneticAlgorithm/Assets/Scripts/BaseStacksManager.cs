@@ -33,7 +33,6 @@ public class BaseStacksManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
 	}
 
     public void AddResources(RESOURCES_TYPE type, int value)

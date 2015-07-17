@@ -6,10 +6,11 @@ public class ObjectDetectionScript : MonoBehaviour {
 	public bool isDetected = false;
 	public PointOfInterest pointOfInterrestScript;
     public GameManager gameManagerScript;
+	public GameObject shield;
 
 	// Use this for initialization
 	void Start () {
-	
+		gameManagerScript.addElementToList(gameObject.transform.position, gameObject.name);
 	}
 	
 	// Update is called once per frame
@@ -21,11 +22,15 @@ public class ObjectDetectionScript : MonoBehaviour {
 	{
 		if(isDetected == false)
 		{
-			if(collider.gameObject.name.ToLower().Contains("capsule"))
+			Debug.Log("Collision detecté !! " + collider.gameObject.name.ToString());
+			if(collider.gameObject.name.ToLower().Contains("capsule") || collider.gameObject.name.ToLower().Contains("astronaut"))
 			{
+
+				gameManagerScript.substractElementDetected(gameObject);
+				shield.SetActive(true);
 				//print ("collision with IA");
-				var a = gameObject.GetComponent<MeshRenderer>();
-				a.material.color = Color.red;
+				//var a = gameObject.GetComponent<MeshRenderer>();
+				//a.material.color = Color.red;
 				isDetected = true;
                 switch (gameObject.layer)
                 {

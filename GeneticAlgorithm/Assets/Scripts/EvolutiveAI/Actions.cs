@@ -70,6 +70,7 @@ public class Actions {
             case 1: Compteur = CurrentWorld.CompteurWood; break;
             case 2: Compteur = CurrentWorld.CompteurFood; break;
             case 3: Compteur = CurrentWorld.CompteurBuild; break;
+			case 5: Compteur = CurrentWorld.CompteurRefinedWood; break;
             default: Compteur = 0; break;
         }
 

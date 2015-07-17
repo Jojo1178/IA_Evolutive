@@ -34,7 +34,8 @@ public class IAGathering : MonoBehaviour {
         COLLECTING_WOOD,
         COLLECTING_FOOD,
         BRINGTOBASE,
-        BUILDING
+        BUILDING,
+		REFINED_WOOD
     }
     public GATHERING_STATE GatheringState;
     public GATHERING_STATE PreviousGatheringState;
@@ -86,6 +87,18 @@ public class IAGathering : MonoBehaviour {
                 case GATHERING_STATE.NONE:
                     DoingStuff = false;
                     break;
+			case GATHERING_STATE.REFINED_WOOD:
+				if (Travel == false)
+				{
+					NavScript.dest = "base";
+					Debug.Log("Going to Base");
+					Travel = true;
+				}
+				if (NavScript.travelFinished && Vector3.Distance(transform.position, Base.transform.position) < Distance)
+					StartCoroutine(RefinedWood());
+				else
+					DoingStuff = false;
+				break;
                 case GATHERING_STATE.COLLECTING_WOOD:
                     if (Travel == false)
                     {
@@ -195,10 +208,10 @@ public class IAGathering : MonoBehaviour {
             Staking = true;
             //Debug.LogWarning("Create Building animation missing");
             Instantiate(House, place,Quaternion.identity);
-            Manager.baseStackManagerScript.RemoveResources(BaseStacksManager.RESOURCES_TYPE.WOOD, 10);
+            Manager.baseStackManagerScript.RemoveResources(BaseStacksManager.RESOURCES_TYPE.WOOD_REFINED, 10);
             yield return new WaitForSeconds(3);
             foreach (BaseStacksManager.RESOURCES_TYPE ent in Enum.GetValues(typeof(BaseStacksManager.RESOURCES_TYPE)))
-                if (ent != BaseStacksManager.RESOURCES_TYPE.NONE)
+				if (ent != BaseStacksManager.RESOURCES_TYPE.NONE)
                     Manager.baseStackManagerScript.ResourcesMaxValues[ent] += 50;
             Quantity--;
             //IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
@@ -243,6 +256,32 @@ public class IAGathering : MonoBehaviour {
             DoingStuff = false;
         }
     }
+
+	private IEnumerator RefinedWood()
+	{
+		if (!Staking)
+		{
+			Staking = true;
+			for (int i = 0; i < Inventory.Length; i++)
+			{
+				if(Manager.baseStackManagerScript.ResourcesStacked[BaseStacksManager.RESOURCES_TYPE.WOOD] == 0)
+					break;
+				Manager.baseStackManagerScript.AddResources(BaseStacksManager.RESOURCES_TYPE.WOOD_REFINED, 1);
+				Manager.baseStackManagerScript.RemoveResources(BaseStacksManager.RESOURCES_TYPE.WOOD, 1);
+				Debug.Log(i + " wood refined");
+				yield return new WaitForSeconds(1);
+			}
+			Quantity -= Inventory.Length;
+			if (Quantity <= 0)
+			{
+				GatheringState = GATHERING_STATE.NONE;
+				Manager.ActionDone = true;
+			}
+			Staking = false;
+			Travel = false;
+			DoingStuff = false;
+		}
+	}
 
     private IEnumerator StackObject(BaseStacksManager.RESOURCES_TYPE ResourceType)
     {

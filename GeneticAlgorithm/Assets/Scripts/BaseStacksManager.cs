@@ -9,7 +9,8 @@ public class BaseStacksManager : MonoBehaviour {
     {
         WOOD,
         FOOD,
-        NONE
+        NONE,
+		WOOD_REFINED
     };
     public Dictionary<RESOURCES_TYPE, int> ResourcesStacked;
     public Dictionary<RESOURCES_TYPE, int> ResourcesMaxValues;
@@ -20,8 +21,10 @@ public class BaseStacksManager : MonoBehaviour {
 	void Start () {
         ResourcesStacked = new Dictionary<RESOURCES_TYPE, int>();
         ResourcesStacked.Add(RESOURCES_TYPE.WOOD , 0);
-        ResourcesStacked.Add(RESOURCES_TYPE.FOOD, 0);
-        ResourcesMaxValues = new Dictionary<RESOURCES_TYPE, int>();
+		ResourcesStacked.Add(RESOURCES_TYPE.WOOD_REFINED, 0);
+		ResourcesStacked.Add(RESOURCES_TYPE.FOOD, 0);
+		ResourcesMaxValues = new Dictionary<RESOURCES_TYPE, int>();
+		ResourcesMaxValues.Add(RESOURCES_TYPE.WOOD_REFINED, BaseMaxValue);
         ResourcesMaxValues.Add(RESOURCES_TYPE.WOOD, BaseMaxValue);
         ResourcesMaxValues.Add(RESOURCES_TYPE.FOOD, BaseMaxValue);
 

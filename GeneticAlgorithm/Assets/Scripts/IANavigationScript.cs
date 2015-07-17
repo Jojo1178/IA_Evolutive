@@ -6,10 +6,10 @@ using System;
 public class IANavigationScript : MonoBehaviour {
 
     //definition des limites de la map
-	float minX = -30;
-	float maxX = 30;
-	float minZ = -30;
-	float maxZ = 30;
+	float minX = -50;
+	float maxX = 50;
+	float minZ = -50;
+	float maxZ = 50;
 
     public drawFieldOfView drawFieldOfViewScript;
     private Dictionary<string, bool> lastPosition = new Dictionary<string,bool>();

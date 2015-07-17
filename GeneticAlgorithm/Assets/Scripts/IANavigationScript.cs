@@ -6,10 +6,10 @@ using System;
 public class IANavigationScript : MonoBehaviour {
 
     //definition des limites de la map
-	float minX = -25;
-	float maxX = 25;
-	float minZ = -25;
-	float maxZ = 25;
+	float minX = -30;
+	float maxX = 30;
+	float minZ = -30;
+	float maxZ = 30;
 
     public drawFieldOfView drawFieldOfViewScript;
     private Dictionary<string, bool> lastPosition = new Dictionary<string,bool>();
@@ -40,16 +40,12 @@ public class IANavigationScript : MonoBehaviour {
     public GameObject exclamation;
     bool isWaiting = false;
 
+
+
 	void Start () 
 	{
 		agent = gameObject.GetComponent<NavMeshAgent>();
-		
 		agent.SetDestination(destination.position);
-
-        var x = Math.Floor(destination.position.x / 4);
-        var z = Math.Floor(destination.position.z / 4);
-
-        lastPosition.Add(x + " " + z, true);
 	}
 	
 	// Update is called once per frame
@@ -71,15 +67,16 @@ public class IANavigationScript : MonoBehaviour {
                     double x, z;
                     if (gameManagerScript.numberOfRessources > 0)
                     {
-                        newDestination = new Vector3(UnityEngine.Random.Range(minX, maxX), 0.5f, UnityEngine.Random.Range(minZ, maxZ));
-                        x = Math.Floor(newDestination.x / 4);
-                        z = Math.Floor(newDestination.z / 4);
-                        while (lastPosition.ContainsKey(x + " " + z))
-                        {
-                            newDestination = new Vector3(UnityEngine.Random.Range(minX, maxX), 0.5f, UnityEngine.Random.Range(minZ, maxZ));
-                            x = Math.Floor(newDestination.x / 4);
-                            z = Math.Floor(newDestination.z / 4);
-                        }
+						for(int i = 0; i < 20; i++)
+						{
+							newDestination = new Vector3(UnityEngine.Random.Range(minX, maxX), 0.5f, UnityEngine.Random.Range(minZ, maxZ));
+							if(CheckIfDestinationIsOK(newDestination) == true)
+							{}
+							else
+								newDestination = new Vector3(UnityEngine.Random.Range(minX, maxX), 0.5f, UnityEngine.Random.Range(minZ, maxZ));
+						}
+
+
                         travelFinished = false;
                         agent.SetDestination(newDestination);
                     }
@@ -93,6 +90,7 @@ public class IANavigationScript : MonoBehaviour {
                 }
                 else
                 {
+					Debug.Log("Tout est trouvé !!!");
                     if (dest.Equals("base"))
                     {
                         agent.SetDestination(gameManagerScript.baseStackManagerScript.transform.position);
@@ -206,4 +204,14 @@ public class IANavigationScript : MonoBehaviour {
         exclamation.SetActive(false);
         drawFieldOfViewScript.detectionMode = false;
     }
+
+	public bool CheckIfDestinationIsOK(Vector3 newDestination)
+	{
+		bool result;
+		result = gameManagerScript.ResearchInAreaEnabled(newDestination);
+		if(result == false)
+			Debug.Log("Tout est deja decouvert dans la zone de recherche");
+		return result;
+	}
+	
 }

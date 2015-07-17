@@ -15,6 +15,8 @@ public class PointOfInterest : MonoBehaviour {
 	int size;
 	public bool allDetected = false;
 
+	public GameManager gameManagerScript;
+
 	// Use this for initialization
 	void Start () {
 		size = 0;
@@ -28,7 +30,6 @@ public class PointOfInterest : MonoBehaviour {
 		}
 		else
 			allDetected = false;
-			
 	}
 
 	public int GetSize()

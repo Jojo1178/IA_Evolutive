@@ -55,11 +55,10 @@ public class GameManager : MonoBehaviour {
 		{
 			if(topLeftCorner != null && topRightCorner != null && BottomLeftCorner != null && BottomRightCorner != null)
 			{
+				Debug.Log("Il y a " + listOfElements.Count + " dans l'environnement");
 				limitSpecify = true;
 				terrain = new Rectangle(topLeftCorner, topRightCorner, BottomLeftCorner, BottomRightCorner );
 				divisionList = terrain.subdivideSquareBy4();
-				Debug.Log("Subdivision du terrain effectuée");
-				Debug.Log("Creation du dictionnaire des elements par zone");
 				createListAreaElement();
 			}
 		}
@@ -146,7 +145,10 @@ public class GameManager : MonoBehaviour {
 				if(elementInArea[rect.getIndex()] > 0)
 					return true;
 				if(elementInArea[rect.getIndex()] == 0)
+				{
+					Debug.Log ("Tous les elements ont ete trouvé dans le rectangle " + rect.getIndex());
 					return false;
+				}
 			}
 		}
 		return false;

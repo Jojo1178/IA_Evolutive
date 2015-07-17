@@ -11,7 +11,6 @@ GeneticAlgorithm/*.pidb
 GeneticAlgorithm/*.userprefs
 
 *.lastbuildstate
-*.obj
 *.pdb
 *.lik
 *.csproj.user

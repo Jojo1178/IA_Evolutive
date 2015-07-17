@@ -50,34 +50,34 @@ public class Rectangle{
 	{
 		float distance = ( Mathf.Sqrt( ((topRight.x - topLeft.x)*(topRight.x - topLeft.x)) + ((topRight.z - topLeft.z)*(topRight.z - topLeft.z)) ) ) / 2;
 		Vector3 newPointTL_TR = new Vector3(topLeft.x + distance, 0, topLeft.z); // nouveau point entre A et B
-		GameObject cube1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		var mr = cube1.GetComponent<MeshRenderer>();
-		mr.material.color = Color.cyan;
-		cube1.transform.position = newPointTL_TR;
+		//GameObject cube1 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		//var mr = cube1.GetComponent<MeshRenderer>();
+		//mr.material.color = Color.cyan;
+		//cube1.transform.position = newPointTL_TR;
 
 		Vector3 newPointTL_BL = new Vector3(topLeft.x, 0, topLeft.z - distance); // nouveau point entre A et D
-		GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		var mr1 = cube2.GetComponent<MeshRenderer>();
-		mr1.material.color = Color.cyan;
-		cube2.transform.position = newPointTL_BL;
+		//GameObject cube2 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		//var mr1 = cube2.GetComponent<MeshRenderer>();
+		//mr1.material.color = Color.cyan;
+		//cube2.transform.position = newPointTL_BL;
 
 		Vector3 newPointMiddle = new Vector3(topLeft.x + distance, 0, topLeft.z - distance); // nouveau point au milieu du carre
-		GameObject cube3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		var mr2 = cube3.GetComponent<MeshRenderer>();
-		mr2.material.color = Color.cyan;
-		cube3.transform.position = newPointMiddle;
+		//GameObject cube3 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		//var mr2 = cube3.GetComponent<MeshRenderer>();
+		//mr2.material.color = Color.cyan;
+		//cube3.transform.position = newPointMiddle;
 
 		Vector3 newPointTR_BR = new Vector3(topRight.x, 0, topRight.z - distance); // nouveau point entre B et C
-		GameObject cube4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		var mr3 = cube4.GetComponent<MeshRenderer>();
-		mr3.material.color = Color.cyan;
-		cube4.transform.position = newPointTR_BR;
+		//GameObject cube4 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		//var mr3 = cube4.GetComponent<MeshRenderer>();
+		//mr3.material.color = Color.cyan;
+		//cube4.transform.position = newPointTR_BR;
 
 		Vector3 newPointBL_BR = new Vector3(bottomLeft.x + distance, 0, bottomLeft.z); // nouveau point entre D et C
-		GameObject cube5 = GameObject.CreatePrimitive(PrimitiveType.Cube);
-		var mr4 = cube5.GetComponent<MeshRenderer>();
-		mr4.material.color = Color.cyan;
-		cube5.transform.position = newPointBL_BR;
+		//GameObject cube5 = GameObject.CreatePrimitive(PrimitiveType.Cube);
+		//var mr4 = cube5.GetComponent<MeshRenderer>();
+		//mr4.material.color = Color.cyan;
+		//cube5.transform.position = newPointBL_BR;
 
 		Rectangle R1 = new Rectangle(topLeft, newPointTL_TR, newPointTL_BL, newPointMiddle, 1);
 		subdivisionList.Add(R1);

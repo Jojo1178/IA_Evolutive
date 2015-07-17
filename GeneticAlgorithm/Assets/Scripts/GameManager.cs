@@ -109,14 +109,11 @@ public class GameManager : MonoBehaviour {
 
 	public void createListAreaElement()
 	{
-		Debug.Log("Initialisation de elementInArea");
 		elementInArea = new Dictionary<int, int>();
-		Debug.Log("Ajout d'element dans elementInArea");
 		elementInArea.Add(1, 0);
 		elementInArea.Add(2, 0);
 		elementInArea.Add(3, 0);
 		elementInArea.Add(4, 0);
-		Debug.Log("Boucle for");
 		
 		foreach(var elem in listOfElements)
 		{	
@@ -146,7 +143,6 @@ public class GameManager : MonoBehaviour {
 					return true;
 				if(elementInArea[rect.getIndex()] == 0)
 				{
-					Debug.Log ("Tous les elements ont ete trouvé dans le rectangle " + rect.getIndex());
 					return false;
 				}
 			}

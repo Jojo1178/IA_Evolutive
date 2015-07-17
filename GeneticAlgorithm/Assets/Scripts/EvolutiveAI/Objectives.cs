@@ -1,12 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Objectives : MonoBehaviour {
+
+public enum Typeobjectif
+{
+    FOOD,
+    WOOD,
+    BUILD
+}
+
+
+public class Objectives{
 
 	private bool longTerm;
 	private Types type;
 	private int researchedScore;
 	private Actions finalAction;
+
+    private string objectiveName;
+
+    public string ObjectiveName
+    {
+        get { return objectiveName; }
+        set { objectiveName = value; }
+    }
+
+    private Typeobjectif objectifType;
+
+    public Typeobjectif ObjectifType
+    {
+        get { return objectifType; }
+        set { objectifType = value; }
+    }
 
 	public bool LongTerm {
 		get {
@@ -54,11 +79,27 @@ public class Objectives : MonoBehaviour {
 	
 	}
 
-	public virtual void Create(bool IsLongTerm,Types ObjectiveType, int TheResearchedScore,Actions TheFinalAction)
+	public virtual void Create(string name,bool IsLongTerm,Types ObjectiveType, int TheResearchedScore,Actions TheFinalAction, Typeobjectif objtype)
 	{
+        ObjectiveName = name;
 		longTerm = IsLongTerm;
 		type = ObjectiveType;
 		researchedScore = TheResearchedScore;
 		finalAction = TheFinalAction;
+        objectifType = objtype;
 	}
+
+    public static bool operator ==(Objectives obj1, Objectives obj2)
+    {
+        return (obj1.ObjectiveName == obj2.ObjectiveName);
+    }
+
+    public static bool operator !=(Objectives obj1, Objectives obj2)
+    {
+        return (obj1.LongTerm != obj2.LongTerm
+            && obj1.Type != obj2.Type
+            && obj1.ResearchedScore != obj2.ResearchedScore
+            && obj1.ObjectifType != obj2.ObjectifType
+            && obj1.FinalAction != obj2.FinalAction);
+    }
 }

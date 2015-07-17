@@ -13,7 +13,6 @@
   <ItemGroup>
     <ClCompile Include="Action.cpp" />
     <ClCompile Include="ActionTree.cpp" />
-    <ClCompile Include="Comportements.cpp" />
     <ClCompile Include="Consequence.cpp" />
     <ClCompile Include="Decision.cpp" />
     <ClCompile Include="monde.cpp" />
@@ -24,7 +23,6 @@
   <ItemGroup>
     <ClInclude Include="Action.h" />
     <ClInclude Include="ActionTree.h" />
-    <ClInclude Include="Comportements.h" />
     <ClInclude Include="Consequence.h" />
     <ClInclude Include="Decision.h" />
     <ClInclude Include="monde.h" />

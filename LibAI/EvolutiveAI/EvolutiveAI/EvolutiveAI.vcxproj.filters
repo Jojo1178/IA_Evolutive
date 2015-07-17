@@ -18,9 +18,6 @@
     <ClCompile Include="Action.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Comportements.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Consequence.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -45,9 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Action.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="Comportements.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Consequence.h">

@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        WoodStock.text = "Wood : " + Stacks.ResourcesStacked[BaseStacksManager.RESOURCES_TYPE.WOOD];
-        FoodStock.text = "Food : " + Stacks.ResourcesStacked[BaseStacksManager.RESOURCES_TYPE.FOOD];
+        WoodStock.text = "Wood : " + Stacks.ResourcesStacked[BaseStacksManager.RESOURCES_TYPE.WOOD] +"/"+ Stacks.ResourcesMaxValues[BaseStacksManager.RESOURCES_TYPE.WOOD];
+        FoodStock.text = "Food : " + Stacks.ResourcesStacked[BaseStacksManager.RESOURCES_TYPE.FOOD] + "/" + Stacks.ResourcesMaxValues[BaseStacksManager.RESOURCES_TYPE.FOOD];
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Types : World {
+public class Types {
 
 	private int typeID;
 	private string typeName;
@@ -25,20 +25,30 @@ public class Types : World {
 	}
 
 	// Use this for initialization
-	public virtual void Start () {
+	public void Start () {
 	
 	}
 	
 	// Update is called once per frame
-    public virtual void Update()
+    public void Update()
     {
 	
 	}
 
-	public virtual void Create(int ID, string Name)
+	public virtual void Create(int ID, string Name, ref World CurWorld)
 	{
 		typeID = ID;
 		typeName = Name;
-        AllTypes.Add(this);
+        CurWorld.AllTypes.Add(this);
 	}
+
+    public static bool operator ==(Types type1, Types type2)
+    {
+        return (type1.TypeID == type2.TypeID && type1.TypeName == type2.TypeName);
+    }
+
+    public static bool operator !=(Types type1, Types type2)
+    {
+        return (type1.TypeID != type2.TypeID && type1.TypeName != type2.TypeName);
+    }
 }

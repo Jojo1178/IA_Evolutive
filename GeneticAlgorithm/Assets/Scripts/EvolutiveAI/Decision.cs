@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class Decision : MonoBehaviour {
+public class Decision{
 
 	private World monde;
 	private int curScore;
@@ -29,7 +29,6 @@ public class Decision : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-	
 	}
 	
 	// Update is called once per frame
@@ -46,13 +45,14 @@ public class Decision : MonoBehaviour {
 		int TempScore = 0;
 		int ArrayCounter = 0;
 
-		ActionTrees CreatedTree;
-
-		CreatedTree = null;
+		ActionTrees CreatedTree = new ActionTrees();
 
 		for (int i = 0; i < PossibleConsequences.Count; i++) 
 		{
 			Consequences TempCons = monde.GetConsequenceById(PossibleConsequences[i]);
+
+            if (TempCons.Type != LongTermObjective.Type)
+                continue;
 
             List<Actions> PossibleActions = TempCons.ActionsLinked;
 
@@ -61,24 +61,24 @@ public class Decision : MonoBehaviour {
 
 			for(int j = 0; j < PossibleActions.Count; j++)
 			{
-				if(ActionScore == 0 && PossibleActions[i].Score > 0)
+				if(ActionScore == 0 && PossibleActions[j].Score > 0)
 				{
 					int Score = TempScore;
-					if((Score += PossibleActions[i].Score) > TempScore)
+					if((Score += PossibleActions[j].Score) > TempScore)
 					{
-						ActionScore = PossibleActions[i].Score;
-						TempSelectedAction = PossibleActions[i];
+						ActionScore = PossibleActions[j].Score;
+						TempSelectedAction = PossibleActions[j];
 					}
 				}
 				else
 				{
-					if(PossibleActions[i].Score > ActionScore)
+					if(PossibleActions[j].Score > ActionScore)
 					{
 						int Score = TempScore;
-						if((Score += PossibleActions[i].Score) > TempScore)
+						if((Score += PossibleActions[j].Score) > TempScore)
 						{
-							ActionScore = PossibleActions[i].Score;
-							TempSelectedAction = PossibleActions[i];
+							ActionScore = PossibleActions[j].Score;
+							TempSelectedAction = PossibleActions[j];
 						}
 					}
 				}
@@ -96,9 +96,17 @@ public class Decision : MonoBehaviour {
 
 			if(TempScore >= LongTermObjective.ResearchedScore || SelectedActions.Count > MaximumNumberOfActions)
 			{
-				SelectedActions.Add(LongTermObjective.FinalAction.ActionID);
+                if (LongTermObjective.FinalAction != null)
+                {
+                    SelectedActions.Add(LongTermObjective.FinalAction.ActionID);
+                }
+
 				CreatedTree.ListOfActions = SelectedActions;
 				CreatedTree.TreeScore = TempScore;
+
+
+                if (TempScore < LongTermObjective.ResearchedScore && TempScore > 0)
+                     LongTermObjective.ResearchedScore = TempScore;
 
 				return CreatedTree;
 			}
@@ -106,12 +114,17 @@ public class Decision : MonoBehaviour {
 
 		if(SelectedActions.Count > 0)
 		{
-			SelectedActions.Add(LongTermObjective.FinalAction.ActionID);
+            if (LongTermObjective.FinalAction != null)
+            {
+                SelectedActions.Add(LongTermObjective.FinalAction.ActionID);
+            }
 			CreatedTree.ListOfActions = SelectedActions;
 			CreatedTree.TreeScore = TempScore;
-			
-
 		}
+
+        if (TempScore < LongTermObjective.ResearchedScore && TempScore > 0)
+            LongTermObjective.ResearchedScore = TempScore;
+
 		return CreatedTree;
 	}
 

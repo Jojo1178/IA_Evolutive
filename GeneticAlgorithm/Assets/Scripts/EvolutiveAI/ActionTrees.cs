@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ActionTrees : World {
+public class ActionTrees {
 
 	private List<int> listOfActions = new List<int>();
 	private int treeScore;
@@ -36,12 +36,12 @@ public class ActionTrees : World {
 	}
 
 	// Use this for initialization
-	void Start () {
+	 void Start () {
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	 void Update () {
 	
 	}
 

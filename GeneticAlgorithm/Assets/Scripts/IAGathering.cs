@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class IAGathering : MonoBehaviour {
 
     public GameManager Manager;
     public IANavigationScript NavScript;
-    public IAManager IAScript;
+    //public IAManager IAScript;
     public GameObject Base;
 
     [Range(0,1)]
@@ -17,9 +18,15 @@ public class IAGathering : MonoBehaviour {
     [Range(0, 10)]
     public int Distance = 5;
     public int[] Inventory;
+    public int Quantity;
+
+    public Vector3[] BuildPlace;
+
+    public GameObject House;
 
     private bool Staking = false;
     private bool Travel = false;
+    private bool DoingStuff = false;
 
     public enum GATHERING_STATE
     {
@@ -30,10 +37,15 @@ public class IAGathering : MonoBehaviour {
         BUILDING
     }
     public GATHERING_STATE GatheringState;
+    public GATHERING_STATE PreviousGatheringState;
 
 	// Use this for initialization
     void Start()
     {
+        Staking = false;
+        Travel = false;
+        DoingStuff = false;
+        Quantity = 0;
         if (!Manager.CharacterList.Contains(this))
             Manager.CharacterList.Add(this);
         Priority = new List<BaseStacksManager.RESOURCES_TYPE>();
@@ -56,8 +68,9 @@ public class IAGathering : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
-        if (Manager.numberOfRessources == 0)
+        if (Manager.numberOfRessources == 0 && !DoingStuff)
         {
+            DoingStuff = true;
             switch (GatheringState)
             {
               /*  case IAManager.GATHERING_STATE.UPDATESTOCK:
@@ -70,6 +83,9 @@ public class IAGathering : MonoBehaviour {
                     if (NavScript.travelFinished)
                         GetPriority();
                     break;*/
+                case GATHERING_STATE.NONE:
+                    DoingStuff = false;
+                    break;
                 case GATHERING_STATE.COLLECTING_WOOD:
                     if (Travel == false)
                     {
@@ -79,6 +95,8 @@ public class IAGathering : MonoBehaviour {
                     }
                     if (NavScript.travelFinished && Vector3.Distance(transform.position, NavScript.agent.destination) < Distance)
                         StartCoroutine(StackObject(BaseStacksManager.RESOURCES_TYPE.WOOD));
+                    else
+                        DoingStuff = false;
                     break;
                 case GATHERING_STATE.COLLECTING_FOOD:
                     if (Travel == false)
@@ -89,6 +107,8 @@ public class IAGathering : MonoBehaviour {
                     }
                     if (NavScript.travelFinished && Vector3.Distance(transform.position, NavScript.agent.destination) < Distance)
                         StartCoroutine(StackObject(BaseStacksManager.RESOURCES_TYPE.FOOD));
+                    else
+                        DoingStuff = false;
                     break;
                 case GATHERING_STATE.BRINGTOBASE:
                     if (Travel == false)
@@ -99,16 +119,31 @@ public class IAGathering : MonoBehaviour {
                     }
                     if (NavScript.travelFinished && Vector3.Distance(transform.position, Base.transform.position) < Distance)
                         StartCoroutine(DropStack());
+                    else
+                        DoingStuff = false;
                     break;
                 case GATHERING_STATE.BUILDING:
+                    if (Manager.NextBuildPlace < Manager.baseStackManagerScript.BuildingPlaces.Count) { 
                     if (Travel == false)
                     {
-                        NavScript.dest = "build";
+                        NavScript.agent.SetDestination(Manager.baseStackManagerScript.BuildingPlaces[Manager.NextBuildPlace].Key);
+                        NavScript.travelFinished = false;
+                        Manager.NextBuildPlace++;
+                        //NavScript.dest = "build";
                         Debug.Log("Going to Build stuff");
                         Travel = true;
                     }
                     if (NavScript.travelFinished && Vector3.Distance(transform.position, NavScript.agent.destination) < Distance)
-                        StartCoroutine(BuildBulding());
+                    {
+                        StartCoroutine(BuildBulding(Manager.baseStackManagerScript.BuildingPlaces[Manager.NextBuildPlace].Key));
+                        //if (Manager.baseStackManagerScript.ResourcesStacked[BaseStacksManager.RESOURCES_TYPE.WOOD] > 10)
+                        //    StartCoroutine(BuildBulding());
+                        //else
+                        //    GatheringState = GATHERING_STATE.COLLECTING_WOOD;
+                    }
+                    else
+                        DoingStuff = false;
+                        }
                     break;
             }
         }
@@ -153,17 +188,32 @@ public class IAGathering : MonoBehaviour {
         }
     }*/
 
-    private IEnumerator BuildBulding()
+    private IEnumerator BuildBulding(Vector3 place)
     {
-        Debug.LogWarning("Create Building animation missing");
-        yield return new WaitForSeconds(3);
-        foreach (KeyValuePair< BaseStacksManager.RESOURCES_TYPE, int> ent in Manager.baseStackManagerScript.ResourcesMaxValues)
-            Manager.baseStackManagerScript.ResourcesMaxValues[ent.Key] += 50;
-        //IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
-        Manager.ActionDone = true;
-        Staking = false;
-        Travel = false;
-        //throw new System.NotImplementedException();
+        if (!Staking)
+        {
+            Staking = true;
+            //Debug.LogWarning("Create Building animation missing");
+            Instantiate(House, place,Quaternion.identity);
+            Manager.baseStackManagerScript.RemoveResources(BaseStacksManager.RESOURCES_TYPE.WOOD, 10);
+            yield return new WaitForSeconds(3);
+            foreach (BaseStacksManager.RESOURCES_TYPE ent in Enum.GetValues(typeof(BaseStacksManager.RESOURCES_TYPE)))
+                if (ent != BaseStacksManager.RESOURCES_TYPE.NONE)
+                    Manager.baseStackManagerScript.ResourcesMaxValues[ent] += 50;
+            Quantity--;
+            //IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
+            if (Quantity <= 0)
+            {
+                GatheringState = GATHERING_STATE.NONE;
+                Manager.ActionDone = true;
+            }
+            else
+                GatheringState = GATHERING_STATE.BUILDING;
+            DoingStuff = false;
+            Staking = false;
+            Travel = false;
+            //throw new System.NotImplementedException();
+        }
     }
 
     private IEnumerator DropStack()
@@ -177,21 +227,30 @@ public class IAGathering : MonoBehaviour {
                     Manager.baseStackManagerScript.AddResources(BaseStacksManager.RESOURCES_TYPE.WOOD, 1);
                 if (Inventory[i] == 2)
                     Manager.baseStackManagerScript.AddResources(BaseStacksManager.RESOURCES_TYPE.FOOD, 1);
-                yield return new WaitForSeconds(0.25f);
             }
             //IAScript.GatheringState = IAManager.GATHERING_STATE.UPDATESTOCK;
-            GatheringState = GATHERING_STATE.NONE;
-            Manager.ActionDone = true;
+            if (Quantity <= 0)
+            {
+                GatheringState = GATHERING_STATE.NONE;
+                Manager.ActionDone = true;
+            }
+            else
+                GatheringState = PreviousGatheringState;
+
             Staking = false;
             Travel = false;
+            yield return null;
+            DoingStuff = false;
         }
     }
 
     private IEnumerator StackObject(BaseStacksManager.RESOURCES_TYPE ResourceType)
     {
+        Debug.Log("test");
         if (!Staking)
         {
             Staking = true;
+            Debug.Log("test");
             for (int i = 0; i < Inventory.Length; i++)
             {
                 if (ResourceType == BaseStacksManager.RESOURCES_TYPE.WOOD)
@@ -201,9 +260,12 @@ public class IAGathering : MonoBehaviour {
                 Debug.Log(i + " resources collected");
                 yield return new WaitForSeconds(1);
             }
+            PreviousGatheringState = GatheringState;
             GatheringState = GATHERING_STATE.BRINGTOBASE;
+            Quantity -= Inventory.Length;
             Staking = false;
             Travel = false;
+            DoingStuff = false;
         }
     }
 }

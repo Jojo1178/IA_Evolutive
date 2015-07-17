@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Objets : World {
+public class Objets {
 
 	private int objectID;
 	private string objectName;

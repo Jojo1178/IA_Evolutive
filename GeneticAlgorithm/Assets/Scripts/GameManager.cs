@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject topRightCorner;
 	public GameObject BottomLeftCorner;
 	public GameObject BottomRightCorner;
+    public GameObject Player;
 	bool limitSpecify = false;
 	
 	Dictionary<string, Vector3> elementList;

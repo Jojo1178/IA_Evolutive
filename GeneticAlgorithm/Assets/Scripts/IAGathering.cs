@@ -7,7 +7,7 @@ public class IAGathering : MonoBehaviour {
 
     public GameManager Manager;
     public IANavigationScript NavScript;
-    //public IAManager IAScript;
+    public IAManager IAScript;
     public GameObject Base;
 
     [Range(0,1)]
@@ -35,7 +35,8 @@ public class IAGathering : MonoBehaviour {
         COLLECTING_FOOD,
         BRINGTOBASE,
         BUILDING,
-		REFINED_WOOD
+		REFINED_WOOD,
+        REPRODUCE
     }
     public GATHERING_STATE GatheringState;
     public GATHERING_STATE PreviousGatheringState;
@@ -158,6 +159,28 @@ public class IAGathering : MonoBehaviour {
                         DoingStuff = false;
                         }
                     break;
+                case GATHERING_STATE.REPRODUCE:
+                    Manager.baseStackManagerScript.RemoveResources(BaseStacksManager.RESOURCES_TYPE.FOOD, 10);
+                    GameObject child = Instantiate(Manager.Player, this.transform.position + new Vector3(10, 0, 0), Quaternion.identity) as GameObject;
+                    IANavigationScript childNav = child.GetComponent<IANavigationScript>();
+                    childNav.destination = NavScript.destination;
+                    childNav.pointOfInterestScript = Manager.pointOfInterrestScript;
+                    childNav.gameManagerScript = Manager;
+                    IAGathering childGather = child.GetComponent<IAGathering>();
+                    drawFieldOfView field = child.GetComponentInChildren<drawFieldOfView>();
+                    field.pointOfInterestScript = childNav.pointOfInterestScript;
+                    childGather.Manager = Manager;
+                    childGather.Base = Base;
+                    childGather.IAScript = IAScript;
+                    IAScript.CurrentWorld.CharacterList.Add(childGather);
+
+                    GatheringState = GATHERING_STATE.NONE;
+                    DoingStuff = false;
+                    Staking = false;
+                    Travel = false;
+                    Manager.ActionDone = true;
+                    break;
+
             }
         }
     }
@@ -207,7 +230,7 @@ public class IAGathering : MonoBehaviour {
         {
             Staking = true;
             //Debug.LogWarning("Create Building animation missing");
-            Instantiate(House, place,Quaternion.identity);
+            Instantiate(House, this.transform.position,Quaternion.identity);
             Manager.baseStackManagerScript.RemoveResources(BaseStacksManager.RESOURCES_TYPE.WOOD_REFINED, 10);
             yield return new WaitForSeconds(3);
             foreach (BaseStacksManager.RESOURCES_TYPE ent in Enum.GetValues(typeof(BaseStacksManager.RESOURCES_TYPE)))

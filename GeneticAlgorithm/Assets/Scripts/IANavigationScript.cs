@@ -90,7 +90,7 @@ public class IANavigationScript : MonoBehaviour {
                 }
                 else
                 {
-					Debug.Log("Tout est trouvé !!!");
+					//Debug.Log("Tout est trouvé !!!");
                     if (dest.Equals("base"))
                     {
                         agent.SetDestination(gameManagerScript.baseStackManagerScript.transform.position);

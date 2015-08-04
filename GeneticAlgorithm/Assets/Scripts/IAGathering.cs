@@ -230,7 +230,7 @@ public class IAGathering : MonoBehaviour {
         {
             Staking = true;
             //Debug.LogWarning("Create Building animation missing");
-            Instantiate(House, this.transform.position,Quaternion.identity);
+            Instantiate(House, place,Quaternion.identity);
             Manager.baseStackManagerScript.RemoveResources(BaseStacksManager.RESOURCES_TYPE.WOOD_REFINED, 10);
             yield return new WaitForSeconds(3);
             foreach (BaseStacksManager.RESOURCES_TYPE ent in Enum.GetValues(typeof(BaseStacksManager.RESOURCES_TYPE)))

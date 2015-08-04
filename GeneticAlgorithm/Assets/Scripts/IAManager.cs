@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -27,7 +28,8 @@ public struct SavedAction
     }
 }
 
-public class IAManager : MonoBehaviour {
+public class IAManager : MonoBehaviour
+{
 
     [HideInInspector]
     public AI LearningAI;
@@ -36,34 +38,55 @@ public class IAManager : MonoBehaviour {
     [HideInInspector]
     public ActionTrees OrdersChain;
     public GameManager Manager;
+    public GameObject TextAIContent;
+    public Font AIFont;
+    public Color AIColor;
 
     private int CurrentOrder;
-	private int PreviousOrder;
+    private int PreviousOrder;
     private bool Creation = true;
     private int ObjIt = 0;
-
+    private int LineCounter = 0;
     private List<Actions> ActionsPossible = new List<Actions>();
     private List<Objectives> ObjectivesList = new List<Objectives>();
     private List<SavedAction> savedAct = new List<SavedAction>();
+    private Text AIText;
+    private string[] AISentence = {
+        "Je retourne à la base.",
+        "Je vais chercher du bois.",
+        "Je vais chercher de la nourriture.",
+        "Je vais construire un bâtiment.",
+        "Je vais rafiner du bois.",
+        "Je vais créer un nouvel habitant.",
+        "Je veux construire un bâtiment, mais il me manque du bois rafiné.",
+        "Je veux construire un bâtiment, mais il me manque du bois.",
+        "Je veux rafiner du bois, mais il me manque du bois.",
+        "Je veux créer un nouvel habitant, mais il me manque de la nourriture."
+};
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         CurrentOrder = 0;
-	}
+        AddNewLineOfText("J'explore la carte");
+    }
 
     // Update is called once per frame
     void Update()
     {
         if (Creation && Manager.numberOfRessources == 0)
         {
+            AddNewLineOfText("La carte à été explorée");
+            AddNewLineOfText("Je créé ma liste d'objectif");
             Creation = false;
             CurrentWorld = gameObject.AddComponent<World>();
             CurrentWorld.CharacterList = Manager.CharacterList;
             CurrentWorld.WoodList = Manager.pointOfInterrestScript.woodGO;
             CurrentWorld.FoodList = Manager.pointOfInterrestScript.foodGO;
             CreateObjectives();
-            CreateActionTree(ObjectivesList[3],3);
+            CreateActionTree(ObjectivesList[3], 3);
+            AddNewLineOfText("Mon nouvel objectif principal est de : "+ "Construire un bâtiment");
             DoAction();
             ObjIt = 1;
         }
@@ -74,27 +97,46 @@ public class IAManager : MonoBehaviour {
             else
             {
                 CurrentOrder = 0;
-                switch(ObjIt)
+                switch (ObjIt)
                 {
                     case 1:
                         CreateActionTree(ObjectivesList[4], 1);
+                        AddNewLineOfText("Mon nouvel objectif principal est de : " + "Recolter de la nourriture");
                         ObjIt = 3;
                         break;
                     case 3:
                         CreateActionTree(ObjectivesList[3], 3);
+                        AddNewLineOfText("Mon nouvel objectif principal est de : " + "Construire un bâtiment");
                         ObjIt = 6;
                         break;
                     case 6:
                         CreateActionTree(ObjectivesList[6], 1);
+                        AddNewLineOfText("Mon nouvel objectif principal est de : " + "Créer un nouvel habitant");
                         ObjIt = 1;
                         break;
                 }
-               // CreateActionTree(ObjIt == 1 ? ObjectivesList[4] : ObjectivesList[3], ObjIt == 1 ? 1 : 3);
+                // CreateActionTree(ObjIt == 1 ? ObjectivesList[4] : ObjectivesList[3], ObjIt == 1 ? 1 : 3);
                 DoAction();
 
-               //ObjIt = (ObjIt == 0 ? 1 : 0);
+                //ObjIt = (ObjIt == 0 ? 1 : 0);
             }
         }
+    }
+
+    private void AddNewLineOfText(string text)
+    {
+        GameObject textAI = new GameObject("line" + LineCounter);
+        AIText = textAI.AddComponent<Text>();
+        AIText.color = AIColor;
+        AIText.font = AIFont;
+        AIText.text = text;
+        AIText.alignment = TextAnchor.MiddleCenter;
+        LayoutElement le = textAI.AddComponent<LayoutElement>();
+        le.minHeight = 50;
+        ContentSizeFitter csf = textAI.AddComponent<ContentSizeFitter>();
+        csf.verticalFit = ContentSizeFitter.FitMode.MinSize;
+        textAI.transform.SetParent(TextAIContent.transform);
+        LineCounter++;
     }
 
     private void CreateActionTree(Objectives longObjective, int interation)
@@ -126,24 +168,26 @@ public class IAManager : MonoBehaviour {
         Debug.Log("Current Action : " + IDAction);
         SendOrder(IDAction);
         CurrentOrder++;
-		PreviousOrder = CurrentOrder - 1;
+        PreviousOrder = CurrentOrder - 1;
         Manager.ActionDone = false;
     }
 
     private void SendOrder(int IDAction)
     {
-		Actions ActionToDo = CurrentWorld.GetActionById (IDAction);
+        Actions ActionToDo = CurrentWorld.GetActionById(IDAction);
         foreach (IAGathering gather in CurrentWorld.CharacterList)
         {
             gather.Quantity = 0;
             switch (ActionToDo.ActionName)
             {
                 case "GetWood":
+                    AddNewLineOfText(AISentence[1]);
                     gather.Quantity = ActionToDo.NumberRequired;
                     gather.GatheringState = IAGathering.GATHERING_STATE.COLLECTING_WOOD;
                     CurrentWorld.CompteurWood += gather.Inventory.Length;
                     break;
                 case "GetFood":
+                    AddNewLineOfText(AISentence[2]);
                     gather.Quantity = ActionToDo.NumberRequired;
                     gather.GatheringState = IAGathering.GATHERING_STATE.COLLECTING_FOOD;
                     CurrentWorld.CompteurFood += gather.Inventory.Length;
@@ -151,6 +195,7 @@ public class IAManager : MonoBehaviour {
                 case "BuildBuliding":
                     if (CurrentWorld.CompteurRefinedWood >= 10)
                     {
+                        AddNewLineOfText(AISentence[3]);
                         gather.Quantity = ActionToDo.NumberRequired;
                         gather.GatheringState = IAGathering.GATHERING_STATE.BUILDING;
                         CurrentWorld.CompteurRefinedWood -= 10;
@@ -158,6 +203,7 @@ public class IAManager : MonoBehaviour {
                     }
                     else if (CurrentWorld.CompteurWood >= 10)
                     {
+                        AddNewLineOfText(AISentence[6] + "\n" + AISentence[4]);
                         CurrentWorld.CompteurWood -= 10;
                         gather.Quantity = ActionToDo.NumberRequired;
                         gather.GatheringState = IAGathering.GATHERING_STATE.REFINED_WOOD;
@@ -166,6 +212,7 @@ public class IAManager : MonoBehaviour {
                     }
                     else
                     {
+                        AddNewLineOfText(AISentence[7] + "\n" + AISentence[1]);
                         gather.Quantity = ActionToDo.NumberRequired;
                         gather.GatheringState = IAGathering.GATHERING_STATE.COLLECTING_WOOD;
                         CurrentWorld.CompteurWood += gather.Inventory.Length;
@@ -175,6 +222,7 @@ public class IAManager : MonoBehaviour {
                 case "RefinedWood":
                     if (CurrentWorld.CompteurWood >= 10)
                     {
+                        AddNewLineOfText(AISentence[4]);
                         gather.Quantity = ActionToDo.NumberRequired;
                         CurrentWorld.CompteurWood -= 10;
                         gather.GatheringState = IAGathering.GATHERING_STATE.REFINED_WOOD;
@@ -182,6 +230,7 @@ public class IAManager : MonoBehaviour {
                     }
                     else
                     {
+                        AddNewLineOfText(AISentence[8] + "\n" + AISentence[1]);
                         gather.Quantity = ActionToDo.NumberRequired;
                         gather.GatheringState = IAGathering.GATHERING_STATE.COLLECTING_WOOD;
                         CurrentWorld.CompteurWood += gather.Inventory.Length;
@@ -192,12 +241,14 @@ public class IAManager : MonoBehaviour {
                 case "Reproduce":
                     if (CurrentWorld.CompteurFood >= 10)
                     {
+                        AddNewLineOfText(AISentence[5]);
                         CurrentWorld.CompteurFood -= 10;
                         gather.Quantity = ActionToDo.NumberRequired;
                         gather.GatheringState = IAGathering.GATHERING_STATE.REPRODUCE;
                     }
                     else
                     {
+                        AddNewLineOfText(AISentence[8] + "\n" + AISentence[2]);
                         gather.Quantity = ActionToDo.NumberRequired;
                         gather.GatheringState = IAGathering.GATHERING_STATE.COLLECTING_FOOD;
                         CurrentWorld.CompteurFood += gather.Inventory.Length;
@@ -205,23 +256,24 @@ public class IAManager : MonoBehaviour {
                     }
                     break;
                 default:
+                    AddNewLineOfText(AISentence[0]);
                     gather.GatheringState = IAGathering.GATHERING_STATE.BRINGTOBASE;
                     break;
             }
         }
 
-	}
+    }
 
     private void CreateObjectives()
     {
         Objets foodobjet = new Objets();
-        foodobjet.Create(1,"Food");
+        foodobjet.Create(1, "Food");
         Objets woodobjet = new Objets();
-        woodobjet.Create(1,"Wood");
-		Objets refinedwoodobjet = new Objets();
-		refinedwoodobjet.Create(1,"RefinedWood");
+        woodobjet.Create(1, "Wood");
+        Objets refinedwoodobjet = new Objets();
+        refinedwoodobjet.Create(1, "RefinedWood");
         Objets baseobjet = new Objets();
-        baseobjet.Create(1,"Base");
+        baseobjet.Create(1, "Base");
         Objets buildingobjet = new Objets();
         buildingobjet.Create(1, "Building");
 
@@ -229,25 +281,25 @@ public class IAManager : MonoBehaviour {
         Actions action = new Actions();
         Actions action2 = new Actions();
         Actions action3 = new Actions();
-		Actions action4 = new Actions();
-		Actions action5 = new Actions();
+        Actions action4 = new Actions();
+        Actions action5 = new Actions();
         Actions action6 = new Actions();
 
 
-        action.Create(1, "GetWood",10,ref CurrentWorld);
+        action.Create(1, "GetWood", 10, ref CurrentWorld);
         ActionsPossible.Add(action);
 
-        action2.Create(2, "GetFood",10, ref CurrentWorld);
+        action2.Create(2, "GetFood", 10, ref CurrentWorld);
         ActionsPossible.Add(action2);
 
-        action3.Create(3, "BuildBuliding",20, ref CurrentWorld);
+        action3.Create(3, "BuildBuliding", 20, ref CurrentWorld);
         ActionsPossible.Add(action3);
 
-        action4.Create(4, "ReturnToBase",5, ref CurrentWorld);
+        action4.Create(4, "ReturnToBase", 5, ref CurrentWorld);
         ActionsPossible.Add(action4);
 
-		action5.Create(5, "RefinedWood",8, ref CurrentWorld);
-		ActionsPossible.Add(action5);
+        action5.Create(5, "RefinedWood", 8, ref CurrentWorld);
+        ActionsPossible.Add(action5);
 
         action6.Create(6, "Reproduce", 15, ref CurrentWorld);
         ActionsPossible.Add(action6);
@@ -259,7 +311,7 @@ public class IAManager : MonoBehaviour {
         List<Actions> acts3 = new List<Actions>();
         List<Actions> acts4 = new List<Actions>();
         List<Actions> acts5 = new List<Actions>();
-		List<Actions> acts6 = new List<Actions>();
+        List<Actions> acts6 = new List<Actions>();
         List<Actions> acts7 = new List<Actions>();
         List<Actions> acts8 = new List<Actions>();
 
@@ -268,7 +320,7 @@ public class IAManager : MonoBehaviour {
         List<Objets> obejs3 = new List<Objets>();
         List<Objets> obejs4 = new List<Objets>();
         List<Objets> obejs5 = new List<Objets>();
-		List<Objets> obejs6 = new List<Objets>();
+        List<Objets> obejs6 = new List<Objets>();
         List<Objets> obejs8 = new List<Objets>();
 
         Objectives objs = new Objectives();
@@ -276,7 +328,7 @@ public class IAManager : MonoBehaviour {
         Objectives objs3 = new Objectives();
         Objectives objs4 = new Objectives();
         Objectives objs5 = new Objectives();
-		Objectives objs6 = new Objectives();
+        Objectives objs6 = new Objectives();
         Objectives objs8 = new Objectives();
 
         Consequences csq = new Consequences();
@@ -284,7 +336,7 @@ public class IAManager : MonoBehaviour {
         Consequences csq3 = new Consequences();
         Consequences csq4 = new Consequences();
         Consequences csq5 = new Consequences();
-		Consequences csq6 = new Consequences();
+        Consequences csq6 = new Consequences();
         Consequences csq7 = new Consequences();
         Consequences csq8 = new Consequences();
 
@@ -293,33 +345,33 @@ public class IAManager : MonoBehaviour {
         Types t3 = new Types();
         Types t4 = new Types();
         Types t5 = new Types();
-		Types t6 = new Types();
+        Types t6 = new Types();
         Types t8 = new Types();
 
 
         t.Create(1, "GetWood", ref CurrentWorld);
-        objs.Create("GetWood",false, t, 10, CurrentWorld.GetActionById(1), Typeobjectif.WOOD);
+        objs.Create("GetWood", false, t, 10, CurrentWorld.GetActionById(1), Typeobjectif.WOOD);
         ObjectivesList.Add(objs);
         acts.Add(ActionsPossible[0]);
         obejs.Add(woodobjet);
         csq.Create(acts, obejs, 1, "Collecting Wood", t, ref CurrentWorld);
 
         t2.Create(2, "GetFood", ref CurrentWorld);
-        objs2.Create("GetFood",false, t2, 10, CurrentWorld.GetActionById(2), Typeobjectif.FOOD);
+        objs2.Create("GetFood", false, t2, 10, CurrentWorld.GetActionById(2), Typeobjectif.FOOD);
         ObjectivesList.Add(objs2);
         acts2.Add(ActionsPossible[1]);
         obejs2.Add(foodobjet);
         csq2.Create(acts2, obejs2, 2, "Collecting Food", t2, ref CurrentWorld);
 
         t3.Create(3, "BuildBuilding", ref CurrentWorld);
-        objs3.Create("BuildBuilding",false, t3, 1, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
+        objs3.Create("BuildBuilding", false, t3, 1, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
         ObjectivesList.Add(objs3);
         acts3.Add(ActionsPossible[2]);
         obejs3.Add(buildingobjet);
         csq3.Create(acts3, obejs3, 3, "Build Building", t3, ref CurrentWorld);
 
         t4.Create(4, "HaveThreeBuliding", ref CurrentWorld);
-        objs4.Create("Build3Buildings",true, t4, 7, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
+        objs4.Create("Build3Buildings", true, t4, 7, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
         ObjectivesList.Add(objs4);
         acts4.Add(ActionsPossible[2]);
         obejs4.Add(buildingobjet);
@@ -340,7 +392,7 @@ public class IAManager : MonoBehaviour {
         csq6.Create(acts6, obejs6, 7, "Reproduce", t6, ref CurrentWorld);
 
         acts7.Add(ActionsPossible[4]);
-		csq7.Create(acts7, obejs3, 6, "RefinedWood", t3, ref CurrentWorld);
+        csq7.Create(acts7, obejs3, 6, "RefinedWood", t3, ref CurrentWorld);
 
         t8.Create(8, "Have2Child", ref CurrentWorld);
         objs8.Create("Have2Child", true, t8, 10, CurrentWorld.GetActionById(5), Typeobjectif.FOOD);
@@ -353,7 +405,7 @@ public class IAManager : MonoBehaviour {
     public void GiveOrder(GameObject character, IAGathering.GATHERING_STATE order)
     {
         IAGathering gatheringScript = character.GetComponent<IAGathering>();
-        if(gatheringScript)
+        if (gatheringScript)
             gatheringScript.GatheringState = order;
     }
 

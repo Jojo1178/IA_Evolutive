@@ -84,8 +84,9 @@ public class Decision{
 				}
 
 			}
+            monde.ActionsPossible = TempCons.ActionsLinked;
 
-			if(ActionScore > 0)
+            if (ActionScore > 0)
 			{
 				SelectedActions.Add(TempSelectedAction.ActionID);
 				ArrayCounter++;
@@ -107,8 +108,8 @@ public class Decision{
 
                 if (TempScore < LongTermObjective.ResearchedScore && TempScore > 0)
                      LongTermObjective.ResearchedScore = TempScore;
-
-				return CreatedTree;
+                monde.ActionTreeSelected = CreatedTree;
+                return CreatedTree;
 			}
 		}
 
@@ -124,8 +125,8 @@ public class Decision{
 
         if (TempScore < LongTermObjective.ResearchedScore && TempScore > 0)
             LongTermObjective.ResearchedScore = TempScore;
-
-		return CreatedTree;
+        monde.ActionTreeSelected = CreatedTree;
+        return CreatedTree;
 	}
 
 	public void Create(World CurWorld)

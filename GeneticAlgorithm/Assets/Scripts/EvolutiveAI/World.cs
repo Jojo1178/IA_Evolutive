@@ -16,8 +16,10 @@ public class World : MonoBehaviour {
     public int CompteurWood = 0;
 	public int CompteurRefinedWood = 0;
     public int CompteurBuild = 0;
+    public List<Actions> ActionsPossible;
+    public ActionTrees ActionTreeSelected;
 
-	public List<Consequences> AllInteractions {
+    public List<Consequences> AllInteractions {
 		get {
 			return allInteractions;
 		}

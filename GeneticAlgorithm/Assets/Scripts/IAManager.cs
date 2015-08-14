@@ -41,6 +41,10 @@ public class IAManager : MonoBehaviour
     public GameObject TextAIContent;
     public Font AIFont;
     public Color AIColor;
+    public Text AIObjectif;
+    public Text AIPool;
+    public Text AIPoolPass;
+    public Text AITree;
 
     private int CurrentOrder;
     private int PreviousOrder;
@@ -86,6 +90,7 @@ public class IAManager : MonoBehaviour
             CurrentWorld.FoodList = Manager.pointOfInterrestScript.foodGO;
             CreateObjectives();
             CreateActionTree(ObjectivesList[3], 3);
+            UpdateRightCanvas(ObjectivesList[3].ObjectiveName);
             AddNewLineOfText("Mon nouvel objectif principal est de : "+ "Construire un bâtiment");
             DoAction();
             ObjIt = 1;
@@ -101,16 +106,19 @@ public class IAManager : MonoBehaviour
                 {
                     case 1:
                         CreateActionTree(ObjectivesList[4], 1);
+                        UpdateRightCanvas(ObjectivesList[4].ObjectiveName);
                         AddNewLineOfText("Mon nouvel objectif principal est de : " + "Recolter de la nourriture");
                         ObjIt = 3;
                         break;
                     case 3:
                         CreateActionTree(ObjectivesList[3], 3);
+                        UpdateRightCanvas(ObjectivesList[3].ObjectiveName);
                         AddNewLineOfText("Mon nouvel objectif principal est de : " + "Construire un bâtiment");
                         ObjIt = 6;
                         break;
                     case 6:
                         CreateActionTree(ObjectivesList[6], 1);
+                        UpdateRightCanvas(ObjectivesList[6].ObjectiveName);
                         AddNewLineOfText("Mon nouvel objectif principal est de : " + "Créer un nouvel habitant");
                         ObjIt = 1;
                         break;
@@ -121,6 +129,29 @@ public class IAManager : MonoBehaviour
                 //ObjIt = (ObjIt == 0 ? 1 : 0);
             }
         }
+    }
+
+    private void UpdateRightCanvas(string objectiveName)
+    {
+        AIObjectif.text = "Objective :\n"+objectiveName;
+        string poolComp = "";
+        foreach (Actions act in CurrentWorld.ActionList)
+        {
+            poolComp += act.ActionName + ", ";
+        }
+        AIPool.text = "Complete Pool :\n" + poolComp;
+        string poolPassComp = "";
+        foreach (Actions act in CurrentWorld.ActionsPossible)
+        {
+            poolPassComp += act.ActionName + ", ";
+        }
+        AIPoolPass.text = "Pool After Pass :\n" + poolPassComp;
+        string treeComp = "";
+        foreach (int i in CurrentWorld.ActionTreeSelected.ListOfActions)
+        {
+            treeComp += CurrentWorld.GetActionById(i).ActionName + ", ";
+        }
+        AITree.text = "Tree :\n" + treeComp;
     }
 
     private void AddNewLineOfText(string text)

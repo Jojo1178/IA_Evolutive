@@ -111,16 +111,16 @@ public class IAManager : MonoBehaviour
                         ObjIt = 3;
                         break;
                     case 3:
-                        CreateActionTree(ObjectivesList[3], 3);
+                        CreateActionTree(ObjectivesList[3], 1);
                         UpdateRightCanvas(ObjectivesList[3].ObjectiveName);
                         AddNewLineOfText("Mon nouvel objectif principal est de : " + "Construire un bâtiment");
-                        ObjIt = 6;
+                        ObjIt = 1;
                         break;
                     case 6:
                         CreateActionTree(ObjectivesList[6], 1);
                         UpdateRightCanvas(ObjectivesList[6].ObjectiveName);
                         AddNewLineOfText("Mon nouvel objectif principal est de : " + "Créer un nouvel habitant");
-                        ObjIt = 1;
+                        ObjIt = 3;
                         break;
                 }
                 // CreateActionTree(ObjIt == 1 ? ObjectivesList[4] : ObjectivesList[3], ObjIt == 1 ? 1 : 3);
@@ -381,39 +381,39 @@ public class IAManager : MonoBehaviour
 
 
         t.Create(1, "GetWood", ref CurrentWorld);
-        objs.Create("GetWood", false, t, 10, CurrentWorld.GetActionById(1), Typeobjectif.WOOD);
+        objs.Create("GetWood", false, t, 1, CurrentWorld.GetActionById(1), Typeobjectif.WOOD);
         ObjectivesList.Add(objs);
         acts.Add(ActionsPossible[0]);
         obejs.Add(woodobjet);
         csq.Create(acts, obejs, 1, "Collecting Wood", t, ref CurrentWorld);
 
         t2.Create(2, "GetFood", ref CurrentWorld);
-        objs2.Create("GetFood", false, t2, 10, CurrentWorld.GetActionById(2), Typeobjectif.FOOD);
+        objs2.Create("GetFood", false, t2, 1, CurrentWorld.GetActionById(2), Typeobjectif.FOOD);
         ObjectivesList.Add(objs2);
         acts2.Add(ActionsPossible[1]);
         obejs2.Add(foodobjet);
         csq2.Create(acts2, obejs2, 2, "Collecting Food", t2, ref CurrentWorld);
 
         t3.Create(3, "BuildBuilding", ref CurrentWorld);
-        objs3.Create("BuildBuilding", false, t3, 1, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
+        objs3.Create("BuildBuilding", false, t3, 2, CurrentWorld.GetActionById(3), Typeobjectif.WOOD);
         ObjectivesList.Add(objs3);
         acts3.Add(ActionsPossible[2]);
         obejs3.Add(buildingobjet);
         csq3.Create(acts3, obejs3, 3, "Build Building", t3, ref CurrentWorld);
 
-        t4.Create(4, "HaveThreeBuliding", ref CurrentWorld);
-        objs4.Create("Build3Buildings", true, t4, 7, CurrentWorld.GetActionById(3), Typeobjectif.BUILD);
+        t4.Create(4, "HaveBuliding", ref CurrentWorld);
+        objs4.Create("Build1Buildings", true, t4, 3, CurrentWorld.GetActionById(3), Typeobjectif.WOOD);
         ObjectivesList.Add(objs4);
         acts4.Add(ActionsPossible[2]);
         obejs4.Add(buildingobjet);
-        csq4.Create(acts4, obejs4, 4, "Build 3 Building", t4, ref CurrentWorld);
+        csq4.Create(acts4, obejs4, 4, "Build 1 Building", t4, ref CurrentWorld);
 
-        t5.Create(5, "Have100FoodUnit", ref CurrentWorld);
-        objs5.Create("Have100FoodUnit", true, t5, 5, CurrentWorld.GetActionById(2), Typeobjectif.FOOD);
+        t5.Create(5, "Have20FoodUnit", ref CurrentWorld);
+        objs5.Create("Have20FoodUnit", true, t5, 2, CurrentWorld.GetActionById(2), Typeobjectif.FOOD);
         ObjectivesList.Add(objs5);
         acts5.Add(ActionsPossible[1]);
         obejs5.Add(foodobjet);
-        csq5.Create(acts5, obejs5, 5, "Have 100 Food Unit", t5, ref CurrentWorld);
+        csq5.Create(acts5, obejs5, 5, "Have 20 Food Unit", t5, ref CurrentWorld);
 
         t6.Create(6, "Reproduce", ref CurrentWorld);
         objs6.Create("Reproduce", false, t6, 5, CurrentWorld.GetActionById(5), Typeobjectif.FOOD);
@@ -430,7 +430,7 @@ public class IAManager : MonoBehaviour
         ObjectivesList.Add(objs8);
         acts8.Add(ActionsPossible[5]);
         obejs8.Add(foodobjet);
-        csq8.Create(acts8, obejs8, 8, "Have2Child", t8, ref CurrentWorld);
+        csq8.Create(acts8, obejs8, 8, "Have 2 Child", t8, ref CurrentWorld);
     }
 
     public void GiveOrder(GameObject character, IAGathering.GATHERING_STATE order)
